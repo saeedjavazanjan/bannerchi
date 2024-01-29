@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <TextView
+                android:id="@+id/txtTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="20dp"
+                android:text="درباره برنامه "
+                android:textColor="@color/black"
+                android:textSize="35sp" />
+
+    <TextView
+        android:id="@+id/txtText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtTitle"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:text="همهٔ تلاش هم‌کارانم در این اپلیکیشن این بوده است که مجموعه‌ای از بهترین و زیباترین پوسترها را به‌صورت رایگان یا با مبلغ اندکی در اختیارتان قرار دهند.\n این طرح‌ها و پوسترها توسط اساتید خِبرهٔ طراحیِ کشورمان، با رعایت جزئی‌ترین تکنیک‌های طراحی، آماده و عرضه شده است. همین کافی‌ست تا زیبایی‌های پیج شما را به‌طور کاملاً محسوس ارتقا بخشد.\n در پایان، امیدواریم که با خرید این بسته‌های زیبا، ما را برای ادامهٔ این مسیر و ارائهٔ محصولات بهتر یاری کرده و امیدواری دهید."
+        android:textColor="@color/darkGray"
+        android:textSize="20sp" />
+
+    <ImageView
+        android:layout_below="@id/txtText"
+        android:id="@+id/imgemail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="30dp"
+        android:src="@drawable/ic_baseline_email_24" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_below="@id/txtText"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@id/imgemail"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center_vertical"
+                android:text="banerchi@devejumpgroup.ir"
+                android:textColor="@color/darkGray"
+                android:textSize="20sp" />
+
+    <ImageView
+        android:id="@+id/imgAtSign"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imgemail"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/ic_baseline_alternate_email_24" />
+
+    <TextView
+        android:fontFamily="@font/roboto_medium"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@id/imgemail"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="20dp"
+        android:layout_toRightOf="@id/imgAtSign"
+        android:gravity="center_vertical"
+        android:text="https://t.me/saeeddevejump"
+        android:textColor="@color/darkGray"
+        android:textSize="20sp" />
+
+            <ImageView
+                android:id="@+id/imgRate"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_below="@+id/imgAtSign"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginRight="50dp"
+                android:layout_marginBottom="50dp"
+                android:gravity="center"
+                android:src="@drawable/rating_image">
+
+            </ImageView>
+        </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</RelativeLayout>

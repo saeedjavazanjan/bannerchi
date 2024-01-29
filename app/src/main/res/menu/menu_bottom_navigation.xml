@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<item android:id="@+id/home"
+    android:enabled="true"
+    android:icon="@drawable/ic_baseline_home_24"
+    android:title="خانه" />
+    <item android:id="@+id/downloads"
+        android:checkable="false"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_cloud_download_24"
+        android:title="دانلود شده ها" />
+    <item android:id="@+id/favorits"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_bookmarks_24"
+        android:title="علاقه مندی ها" />
+    <item android:id="@+id/account"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_supervised_user_circle_24"
+        android:title="درباره ما" />
+</menu>
