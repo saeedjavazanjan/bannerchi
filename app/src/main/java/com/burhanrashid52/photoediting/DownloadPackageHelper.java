@@ -200,6 +200,7 @@ public class DownloadPackageHelper {
     public void notificationUpdate(int progress) {
           notification = new NotificationCompat.Builder(context, "default")
                 .setContentTitle(context.getResources().getString(R.string.app_name))
+                  .setSilent(true)
                 .setContentText("دانلود پکیج...")
                 .setSmallIcon(R.drawable.ic_baseline_save_alt_24)
                 .setProgress(100, progress, false)

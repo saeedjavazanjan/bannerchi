@@ -48,7 +48,7 @@ public  Bundle Current_bundle;
         this.activity = activity;
     }
 
-    public void connectToBazar(Bundle bundle,Integer price){
+    public void connectToBazar(Bundle bundle,Integer price,String pName,String pId){
         Current_bundle=bundle;
         preferences=activity.getSharedPreferences("TokenPref",MODE_PRIVATE);
         localSecurityCheck=new SecurityCheck.Enable("MIHNMA0GCSqGSIb3DQEBAQUAA4G7ADCBtwKBrwDJYQVlmFb27fDWdlBa7MFycAsLuGh0ddMmx5iWYQs9gfOfvSyLuquJpnlKp/uSykHuqU2MNlBU8eBBV/S1e2mrEBoAlUySTXpBPfQiGfvcH0cpJaPrPdBNdteelUSZa8RCc7DjMdmBhDfcvMzQHDxn/VvHuW/sirh9/LkEQ58Tr0D02Hx5/6l9hTguWzntLKkUaapaAn1IKluSJi/lSZa4vVLqTOxFDIH5zPMpwu0CAwEAAQ==");
@@ -62,7 +62,7 @@ public  Bundle Current_bundle;
                     public Unit invoke() {
                         Toast.makeText(context, "ارتباط با بازار...", Toast.LENGTH_SHORT).show();
                         connection=true;
-                        purchase(payment,price);
+                        purchase(payment,price,pName,pId);
                         return null;
                     }
                 });
@@ -80,7 +80,7 @@ public  Bundle Current_bundle;
 
         });
     }
-    public void purchase(Payment payment,Integer price){
+    public void purchase(Payment payment,Integer price,String pName,String pId){
         String packageName="package";
         switch (price){
             case 10000:
@@ -93,7 +93,7 @@ public  Bundle Current_bundle;
                 packageName="package3";
                 break;
         }
-        PurchaseRequest purchaseRequest=new PurchaseRequest(packageName,"payload","");
+        PurchaseRequest purchaseRequest=new PurchaseRequest(packageName,pName+pId,"");
 
         payment.purchaseProduct(activity.getActivityResultRegistry(), purchaseRequest, new Function1<PurchaseCallback, Unit>() {
             @Override

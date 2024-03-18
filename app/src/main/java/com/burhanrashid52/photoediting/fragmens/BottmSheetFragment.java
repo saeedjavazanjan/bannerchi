@@ -145,7 +145,7 @@ public class BottmSheetFragment extends BottomSheetDialogFragment {
 
 
                         } else {
-                            bazar.connectToBazar(bundle,price);
+                            bazar.connectToBazar(bundle,price,name,String.valueOf(id));
                         }
 
                     }
