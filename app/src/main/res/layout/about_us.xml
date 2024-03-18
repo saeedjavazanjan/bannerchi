@@ -21,7 +21,7 @@
                 android:layout_marginBottom="20dp"
                 android:text="درباره برنامه "
                 android:textColor="@color/black"
-                android:textSize="35sp" />
+                android:textSize="17sp" />
 
     <TextView
         android:id="@+id/txtText"
@@ -33,7 +33,7 @@
         android:layout_marginBottom="20dp"
         android:text="همهٔ تلاش هم‌کارانم در این اپلیکیشن این بوده است که مجموعه‌ای از بهترین و زیباترین پوسترها را به‌صورت رایگان یا با مبلغ اندکی در اختیارتان قرار دهند.\n این طرح‌ها و پوسترها توسط اساتید خِبرهٔ طراحیِ کشورمان، با رعایت جزئی‌ترین تکنیک‌های طراحی، آماده و عرضه شده است. همین کافی‌ست تا زیبایی‌های پیج شما را به‌طور کاملاً محسوس ارتقا بخشد.\n در پایان، امیدواریم که با خرید این بسته‌های زیبا، ما را برای ادامهٔ این مسیر و ارائهٔ محصولات بهتر یاری کرده و امیدواری دهید."
         android:textColor="@color/darkGray"
-        android:textSize="20sp" />
+        android:textSize="14sp" />
 
     <ImageView
         android:layout_below="@id/txtText"
