@@ -1,30 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
+
     <androidx.cardview.widget.CardView
-        android:layout_margin="20dp"
-        app:cardCornerRadius="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnEdit"
-            android:text="ویرایش"
-            app:iconGravity="end"
-            app:icon="@drawable/ic_baseline_edit_24"
-            android:layout_margin="10dp"
-            app:cornerRadius="20dp"
-            android:layout_gravity="bottom|right"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        app:cardCornerRadius="20dp">
+
+        <com.nambimobile.widgets.efab.ExpandableFabLayout
+            android:id="@+id/exfab"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content">
+
+            <com.nambimobile.widgets.efab.Overlay
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:overlay_orientation="portrait" />
+
+            <com.nambimobile.widgets.efab.ExpandableFab
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                app:efab_orientation="portrait" />
+
+            <com.nambimobile.widgets.efab.FabOption
+                android:id="@+id/edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onClickPortraitOption1"
+                app:fab_icon="@drawable/ic_baseline_edit_24"
+                app:fab_orientation="portrait"
+                app:label_text="@string/edit" />
+
+            <com.nambimobile.widgets.efab.FabOption
+                android:id="@+id/save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onClickPortraitOption1"
+                android:tint="@color/white"
+                app:fab_icon="@drawable/ic_baseline_save_24"
+                app:fab_orientation="portrait"
+                app:label_text="@string/save" />
+
+            <com.nambimobile.widgets.efab.FabOption
+                android:id="@+id/share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onClickPortraitOption1"
+                android:tint="@color/white"
+                app:fab_icon="@drawable/ic_share"
+                app:fab_orientation="portrait"
+                app:label_text="@string/share" />
+
+            <ImageView
+                android:id="@+id/imgSample"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY" />
+        </com.nambimobile.widgets.efab.ExpandableFabLayout>
 
 
-        <ImageView
-            android:scaleType="fitXY"
-            android:id="@+id/imgSample"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
     </androidx.cardview.widget.CardView>
 
 </RelativeLayout>

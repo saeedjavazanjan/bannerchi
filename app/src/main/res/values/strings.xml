@@ -25,6 +25,10 @@
     <string name="msg_subscribed">Subscribed to weather topic</string>
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
     <string name="fcm_message">FCM Message</string>
+    <string name="edit">ویرایش</string>
+    <string name="share">اشتراک گذاری</string>
+    <string name="save">ذخیره</string>
+
 
 
     <string-array name="photo_editor_emoji">

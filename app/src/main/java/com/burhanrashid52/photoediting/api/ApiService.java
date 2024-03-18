@@ -30,7 +30,7 @@ public class ApiService {
     public void getResponse(String occasion, Response.Listener<List<ResponseModel>> listener, Response.ErrorListener errorListener){
 
         GsonRequest<List<ResponseModel>> gsonRequest=new GsonRequest<List<ResponseModel>>(Request.Method.GET,
-                "http://devejumpgroup.ir/show_news.php?occasion="+occasion,
+                "https://devejumpgroup.ir/show_news.php?occasion="+occasion,
                 new TypeToken<List<ResponseModel>>(){}.getType(),listener,errorListener);
 
         requestQueue.add(gsonRequest);

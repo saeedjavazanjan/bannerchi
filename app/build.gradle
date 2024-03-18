@@ -44,7 +44,7 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
 
-    implementation 'com.github.bumptech.glide:glide:4.13.0'
+    implementation 'com.github.bumptech.glide:glide:4.16.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.13.0'
     implementation 'com.google.code.gson:gson:2.9.0'
     implementation 'com.android.volley:volley:1.2.1'
@@ -55,7 +55,6 @@ dependencies {
     implementation 'com.android.support:design:27.1.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'com.google.android.material:material:1.6.1'
-    implementation 'com.github.bumptech.glide:glide:4.13.0'
 
     // NOTE(lucianocheng): Using the local photoeditor implementation instead of the published
     //                     maven package to faciliate testing, and for the integration tests
@@ -73,6 +72,11 @@ dependencies {
     implementation "androidx.core:core-ktx:1.7.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.fragment:fragment-ktx:1.4.0"
+
+//expandable fab
+    implementation 'com.nambimobile.widgets:expandable-fab:1.2.1'
+
+
 }
 
 

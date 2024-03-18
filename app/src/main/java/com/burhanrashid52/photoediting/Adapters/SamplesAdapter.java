@@ -48,7 +48,10 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesV
         }
 
         public void binder(String url){
-            Glide.with(itemView.getContext()).load(url).into(imageView);
+            Glide.with(itemView.getContext())
+                    .load(url)
+                    .placeholder(R.drawable.place_holder)
+                    .into(imageView);
 
 
         }
