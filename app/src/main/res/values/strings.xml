@@ -30,7 +30,6 @@
     <string name="save">ذخیره</string>
 
 
-
     <string-array name="photo_editor_emoji">
 
         <!-- Smiles -->
@@ -463,5 +462,7 @@
     <string name="general_check_trial_subscription_failed_message">Check Trial Subscription failed</string>
     <string name="general_user_purchased_item_message">User has bought this item</string>
     <string name="general_user_did_not_purchased_item_message">User has not bought this item</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
