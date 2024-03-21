@@ -68,6 +68,7 @@ class PhotoEditorView @JvmOverloads constructor(
         mImgSource.adjustViewBounds = true
         mImgSource.scaleType = ImageView.ScaleType.CENTER_INSIDE
 
+
         attrs?.let {
             val a = context.obtainStyledAttributes(it, R.styleable.PhotoEditorView)
             val imgSrcDrawable = a.getDrawable(R.styleable.PhotoEditorView_photo_src)
@@ -169,5 +170,6 @@ class PhotoEditorView @JvmOverloads constructor(
         private const val imgSrcId = 1
         private const val shapeSrcId = 2
         private const val glFilterId = 3
+
     }
 }
