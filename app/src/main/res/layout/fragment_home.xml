@@ -64,6 +64,7 @@
                         app:textInputLayoutFocusedRectEnabled="false" />
                 </com.google.android.material.textfield.TextInputLayout>
                 <com.google.android.material.tabs.TabLayout
+                    android:layoutDirection="rtl"
                     android:layout_width="match_parent"
                     android:layout_height="?actionBarSize"
                     android:id="@+id/tab_layout"
@@ -92,20 +93,27 @@
 
 
     </com.google.android.material.appbar.AppBarLayout>
-    <androidx.viewpager.widget.ViewPager
-        android:padding="10dp"
-        android:visibility="visible"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:layout_gravity="center_horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/view_pager"/>
+    <LinearLayout
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/linProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:layout_marginTop="40dp"
+        android:outlineAmbientShadowColor="@color/colorPrimaryDark"
+        android:outlineSpotShadowColor="@color/colorPrimaryDark"
+        android:visibility="gone">
+
+        <include layout="@layout/progress" />
+    </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
         app:layout_constraintTop_toBottomOf="@id/sortTitles"
         android:id="@+id/mainRecycler"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
         android:padding="10dp"
         android:visibility="visible"

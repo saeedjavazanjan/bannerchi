@@ -23,8 +23,11 @@
         app:layout_constraintBottom_toTopOf="@+id/rvConstraintTools"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:photo_src="@drawable/blank_image" />
+        app:layout_constraintTop_toTopOf="parent">
+
+    </ja.burhanrashid52.photoeditor.PhotoEditorView>
+
+
 
     <ImageView
         android:id="@+id/imgUndo"
@@ -47,24 +50,24 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <ImageView
-        android:visibility="gone"
         android:id="@+id/imgGallery"
         android:layout_width="@dimen/top_tool_icon_width"
         android:layout_height="wrap_content"
         android:background="@color/semi_black_transparent"
         android:padding="8dp"
         android:src="@drawable/ic_gallery"
+        android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/rvConstraintTools"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
-        android:visibility="gone"
         android:id="@+id/imgCamera"
         android:layout_width="@dimen/top_tool_icon_width"
         android:layout_height="wrap_content"
         android:background="@color/semi_black_transparent"
         android:padding="8dp"
         android:src="@drawable/ic_camera"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/rvConstraintTools"
         app:layout_constraintStart_toEndOf="@id/imgGallery" />
 

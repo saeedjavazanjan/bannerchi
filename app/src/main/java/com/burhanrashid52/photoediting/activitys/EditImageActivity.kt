@@ -81,6 +81,8 @@ class EditImageActivity : BaseActivity(), OnPhotoEditorListener, View.OnClickLis
     @VisibleForTesting
     var mSaveImageUri: Uri? = null
     var selectedImageUri:Uri?=null
+    var type="0"
+
     private var mSaveFileHelper: FileSaveHelper? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -91,7 +93,8 @@ class EditImageActivity : BaseActivity(), OnPhotoEditorListener, View.OnClickLis
         handleIntentImage(mPhotoEditorView?.source)
         val intent = intent
         intent.getStringExtra("path")
-        selectedImageUri = Uri.fromFile(File( intent.getStringExtra("path")))
+        type= intent.getStringExtra("type").toString()
+        selectedImageUri = Uri.fromFile(intent.getStringExtra("path")?.let { File(it) })
 
 
 
@@ -119,7 +122,8 @@ class EditImageActivity : BaseActivity(), OnPhotoEditorListener, View.OnClickLis
         //Typeface mEmojiTypeFace = Typeface.createFromAsset(getAssets(), "emojione-android.ttf");
         mPhotoEditor = mPhotoEditorView?.run {
             PhotoEditor.Builder(this@EditImageActivity, this)
-                .setPinchTextScalable(pinchTextScalable) // set flag to make text scalable when pinch
+                .setPinchTextScalable(pinchTextScalable)
+                // set flag to make text scalable when pinch
                 //.setDefaultTextTypeface(mTextRobotoTf)
                 //.setDefaultEmojiTypeface(mEmojiTypeFace)
                 .build() // build photo editor sdk
@@ -127,8 +131,20 @@ class EditImageActivity : BaseActivity(), OnPhotoEditorListener, View.OnClickLis
         mPhotoEditor?.setOnPhotoEditorListener(this)
 
         //Set Image Dynamically
-       // mPhotoEditorView?.source?.setImageResource(R.drawable.paris_tower)
-        mPhotoEditorView?.source?.setImageURI(selectedImageUri)
+
+        if(type=="3"){
+            val bitmap = MediaStore.Images.Media.getBitmap(
+                contentResolver, selectedImageUri
+            )
+            mPhotoEditor!!.addPoster(bitmap)
+
+        }else{
+             mPhotoEditorView?.source?.setImageURI(selectedImageUri)
+
+        }
+
+
+
         mSaveFileHelper = FileSaveHelper(this)
     }
 
@@ -346,7 +362,7 @@ class EditImageActivity : BaseActivity(), OnPhotoEditorListener, View.OnClickLis
 */
                 }
                 PICK_REQUEST -> try {
-                    mPhotoEditor?.clearAllViews()
+                  //  mPhotoEditor?.clearAllViews()
                     val uri = data?.data
                     val bitmap = MediaStore.Images.Media.getBitmap(
                         contentResolver, uri

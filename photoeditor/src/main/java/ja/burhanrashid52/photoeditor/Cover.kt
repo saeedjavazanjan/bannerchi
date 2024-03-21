@@ -1,19 +1,12 @@
 package ja.burhanrashid52.photoeditor
 
-import android.R.attr.height
-import android.R.attr.width
 import android.graphics.Bitmap
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.view.get
 
-
-/**
- * Created by Burhanuddin Rashid on 14/05/21.
- *
- * @author <https:></https:>//github.com/burhanrashid52>
- */
-internal class Sticker(
+internal class Cover(
     private val mPhotoEditorView: ViewGroup,
     private val mMultiTouchListener: MultiTouchListener,
     private val mViewState: PhotoEditorViewState,
@@ -22,14 +15,14 @@ internal class Sticker(
     context = mPhotoEditorView.context,
     graphicManager = graphicManager,
     viewType = ViewType.IMAGE,
-    layoutId = R.layout.view_photo_editor_image
+    layoutId = R.layout.view_layout_cover
 ) {
     private var imageView: ImageView? = null
     fun buildView(desiredImage: Bitmap?) {
         imageView?.setImageBitmap(desiredImage)
-
+        imageView!!.adjustViewBounds = true
+        imageView!!.scaleType = ImageView.ScaleType.CENTER_INSIDE
     }
-
 
     private fun setupGesture() {
         val onGestureControl = buildGestureController(mPhotoEditorView, mViewState)
@@ -38,9 +31,20 @@ internal class Sticker(
         rootView.setOnTouchListener(mMultiTouchListener)
     }
 
+
     override fun setupView(rootView: View) {
-        imageView = rootView.findViewById(R.id.imgPhotoEditorImage)
+        imageView = rootView.findViewById(R.id.cover)
+
     }
+
+   fun getWide():Int{
+       return imageView!!.width
+   }
+    fun getHeight():Int{
+       return imageView!!.height
+   }
+
+
 
     init {
         setupGesture()

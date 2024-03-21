@@ -96,6 +96,7 @@ public class DownloadedPreview extends AppCompatActivity {
             public void edit(String uri) {
                 Intent intent=new Intent(DownloadedPreview.this,EditImageActivity.class);
                 intent.putExtra("path",uri);
+                intent.putExtra("type",localModel.getType());
                 startActivity(intent);
             }
 

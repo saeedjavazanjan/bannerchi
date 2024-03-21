@@ -26,6 +26,10 @@ interface PhotoEditor {
      */
     fun addImage(desiredImage: Bitmap?)
 
+    fun addPoster(poster:Bitmap)
+
+    fun sizeValue():List<Int>
+
     /**
      * This add the text on the [PhotoEditorView] with provided parameters
      * by default [TextView.setText] will be 18sp

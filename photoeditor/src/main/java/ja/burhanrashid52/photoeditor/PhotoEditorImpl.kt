@@ -45,6 +45,9 @@ internal class PhotoEditorImpl @SuppressLint("ClickableViewAccessibility") const
     private val mDefaultEmojiTypeface: Typeface? = builder.emojiTypeface
     private val mGraphicManager: GraphicManager = GraphicManager(builder.parentView, viewState)
     private val context: Context = builder.context
+    private var img: ImageView? = null
+
+    val sizeOfImage= mutableListOf<Int>()
 
     override fun addImage(desiredImage: Bitmap?) {
         val multiTouchListener = getMultiTouchListener(true)
@@ -53,6 +56,19 @@ internal class PhotoEditorImpl @SuppressLint("ClickableViewAccessibility") const
         addToEditor(sticker)
     }
 
+    override fun addPoster(poster: Bitmap) {
+        val multiTouchListener = getMultiTouchListener(true)
+        val cover = Cover(parentView, multiTouchListener, viewState, mGraphicManager)
+        cover.buildView(poster)
+        addToEditor(cover)
+        sizeOfImage.add(cover.getHeight())
+        sizeOfImage.add(cover.getWide())
+
+    }
+
+    override fun sizeValue():List<Int>{
+        return sizeOfImage
+    }
     override fun addText(text: String?, colorCodeTextView: Int) {
         addText(null, text, colorCodeTextView)
     }

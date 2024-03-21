@@ -8,14 +8,9 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 import com.burhanrashid52.photoediting.models.ResponseModel;
 import com.burhanrashid52.photoediting.models.TitlesModel;
-import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONObject;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ApiService {
     Context context;
@@ -27,10 +22,21 @@ public class ApiService {
 
     }
 
-    public void getResponse(String occasion, Response.Listener<List<ResponseModel>> listener, Response.ErrorListener errorListener){
+    public void getPostersResponse(String occasion, Response.Listener<List<ResponseModel>> listener, Response.ErrorListener errorListener){
 
         GsonRequest<List<ResponseModel>> gsonRequest=new GsonRequest<List<ResponseModel>>(Request.Method.GET,
                 "https://devejumpgroup.ir/show_news.php?occasion="+occasion,
+                new TypeToken<List<ResponseModel>>(){}.getType(),listener,errorListener);
+
+        requestQueue.add(gsonRequest);
+
+
+    }
+
+    public void getTemplatesResponse(String category, Response.Listener<List<ResponseModel>> listener, Response.ErrorListener errorListener){
+
+        GsonRequest<List<ResponseModel>> gsonRequest=new GsonRequest<List<ResponseModel>>(Request.Method.GET,
+                "https://devejumpgroup.ir/show_news.php?occasion="+category,
                 new TypeToken<List<ResponseModel>>(){}.getType(),listener,errorListener);
 
         requestQueue.add(gsonRequest);
@@ -52,6 +58,12 @@ public class ApiService {
 
     }
     public void getOccasion(Response.Listener<List<TitlesModel>> listener,Response.ErrorListener errorListener){
+
+        GsonRequest<List<TitlesModel>> gsonRequest=new GsonRequest<>(Request.Method.GET,"http://devejumpgroup.ir/titles.php",new TypeToken<List<TitlesModel>>(){}.getType(),listener,errorListener);
+        requestQueue.add(gsonRequest);
+
+    }
+    public void getTemplatesCategory(Response.Listener<List<TitlesModel>> listener,Response.ErrorListener errorListener){
 
         GsonRequest<List<TitlesModel>> gsonRequest=new GsonRequest<>(Request.Method.GET,"http://devejumpgroup.ir/titles.php",new TypeToken<List<TitlesModel>>(){}.getType(),listener,errorListener);
         requestQueue.add(gsonRequest);
