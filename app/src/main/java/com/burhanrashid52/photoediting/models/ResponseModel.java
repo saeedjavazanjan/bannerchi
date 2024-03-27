@@ -7,13 +7,12 @@ public class ResponseModel implements Serializable {
 	private String type;
 	private String downloadCount;
 
-
 	private String samples;
 	private String name;
-	private String headerURL;
+	private String headerUrl;
 	private int id;
-	private String packageURL;
-	private String ocassion;
+	private String packageUrl;
+	private String category;
 	private int price;
 
 	public int getPrice() {
@@ -40,20 +39,20 @@ public class ResponseModel implements Serializable {
 		return name;
 	}
 
-	public String getHeaderURL(){
-		return headerURL;
+	public String getHeaderUrl(){
+		return headerUrl;
 	}
 
 	public int getId(){
 		return id;
 	}
 
-	public String getPackageURL(){
-		return packageURL;
+	public String getPackageUrl(){
+		return packageUrl;
 	}
 
 	public String getOcassion(){
-		return ocassion;
+		return category;
 	}
 	public void setDownloadCount(String downloadCount) {
 		this.downloadCount = downloadCount;

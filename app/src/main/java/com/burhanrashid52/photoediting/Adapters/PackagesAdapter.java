@@ -1,5 +1,6 @@
 package com.burhanrashid52.photoediting.Adapters;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ public class PackagesAdapter extends RecyclerView.Adapter<PackagesAdapter.Packag
 
     OnClickItem onClickItem;
 
+
     public void setOnClickItem(OnClickItem onClickItem) {
         this.onClickItem = onClickItem;
     }
@@ -33,6 +35,7 @@ public class PackagesAdapter extends RecyclerView.Adapter<PackagesAdapter.Packag
     @Override
     public int getItemViewType(int position) {
 
+        Log.d("MODELVIEW",responseModels.get(position).getType());
         return Integer.parseInt(responseModels.get(position).getType());
 
     }
@@ -64,6 +67,7 @@ public class PackagesAdapter extends RecyclerView.Adapter<PackagesAdapter.Packag
 
     }
 
+
     @Override
     public int getItemCount() {
         return responseModels.size();
@@ -88,7 +92,7 @@ public class PackagesAdapter extends RecyclerView.Adapter<PackagesAdapter.Packag
         }
         public void packageBinder(ResponseModel responseModel){
             Glide.with(itemView.getContext())
-                    .load(responseModel.getHeaderURL())
+                    .load(responseModel.getHeaderUrl())
                     //.thumbnail(0.1f)
                     .into(imageView);
            // downLoadCount.setText(responseModel.getDownloadCount());

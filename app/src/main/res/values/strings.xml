@@ -28,7 +28,12 @@
     <string name="edit">ویرایش</string>
     <string name="share">اشتراک گذاری</string>
     <string name="save">ذخیره</string>
-
+    <string name="userName">نام کاربری</string>
+    <string name="phoneNumber">شماره تلفن</string>
+    <string name="send">ارسال</string>
+    <string name="otp">رمز دریافتی را وارد کنید</string>
+    <string name="typeOfPage">نوع پیج(کاری/شخصی) </string>
+    <string name="jobTitle">عنوان کاری</string>
 
     <string-array name="photo_editor_emoji">
 
