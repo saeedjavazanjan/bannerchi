@@ -1,44 +1,23 @@
 package com.burhanrashid52.photoediting.activitys;
 
-import static androidx.core.content.ContextCompat.startActivity;
-
-import static com.burhanrashid52.photoediting.activitys.EditImageActivity.FILE_PROVIDER_AUTHORITY;
-
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.FileProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.burhanrashid52.photoediting.Adapters.DownloadedSamplesAdapter;
-import com.burhanrashid52.photoediting.Adapters.SamplesAdapter;
 import com.burhanrashid52.photoediting.CustomFrameLayout;
-import com.burhanrashid52.photoediting.FileSaveHelper;
 import com.burhanrashid52.photoediting.ImageShareHelper;
 import com.burhanrashid52.photoediting.R;
 import com.burhanrashid52.photoediting.ZoomOutPageTransformer;
 import com.burhanrashid52.photoediting.database.LocalModel;
-import com.burhanrashid52.photoediting.models.ResponseModel;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import ja.burhanrashid52.photoeditor.SaveSettings;
 
 public class DownloadedPreview extends AppCompatActivity {
     LocalModel localModel;

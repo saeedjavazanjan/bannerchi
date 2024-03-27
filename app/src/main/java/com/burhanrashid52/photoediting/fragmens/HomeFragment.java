@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,8 +18,10 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
 import com.burhanrashid52.photoediting.Adapters.PackagesAdapter;
 import com.burhanrashid52.photoediting.Adapters.SortTitlesAdapter;
 import com.burhanrashid52.photoediting.R;
@@ -39,6 +42,8 @@ public class HomeFragment extends Fragment {
     TabLayout tabLayout;
     RecyclerView sortTitles;
     RecyclerView mainRecycler;
+    private NestedScrollView nestedSV;
+
     SortTitlesAdapter sortTitlesAdapter;
     List<TitlesModel> titles = new ArrayList<>();
     TextInputEditText search;
@@ -48,6 +53,8 @@ public class HomeFragment extends Fragment {
     List<ResponseModel> searchedPackages = new ArrayList<>();
     public String selectedTab = "همه";
     LinearLayout progress;
+    int pageNumber=1;
+    String pageLoadType="poster";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,6 +64,7 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         search = view.findViewById(R.id.edtSearch);
         tabLayout = view.findViewById(R.id.tab_layout);
+        nestedSV=view.findViewById(R.id.idNestedSV);
 
         mainRecycler = view.findViewById(R.id.mainRecycler);
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
@@ -69,19 +77,18 @@ public class HomeFragment extends Fragment {
 
         progress = view.findViewById(R.id.linProgress);
         progress.setVisibility(View.VISIBLE);
-
         packagesAdapter.setResponseModels(packages);
         packagesAdapter.setOnClickItem(new PackagesAdapter.OnClickItem() {
             @Override
             public void onClick(ResponseModel responseModel) {
                 Intent intent = new Intent(getContext(), PreviewActivity.class);
                 intent.putExtra("name", responseModel.getName());
-                intent.putExtra("packageUrl", responseModel.getPackageURL());
+                intent.putExtra("packageUrl", responseModel.getPackageUrl());
                 intent.putExtra("designer", responseModel.getDesigner());
                 intent.putExtra("id", responseModel.getId());
                 intent.putExtra("occasion", responseModel.getOcassion());
                 intent.putExtra("downloadCount", responseModel.getDownloadCount());
-                intent.putExtra("headerUrl", responseModel.getHeaderURL());
+                intent.putExtra("headerUrl", responseModel.getHeaderUrl());
                 intent.putExtra("price", responseModel.getPrice());
                 intent.putExtra("samples", responseModel.getSamples());
                 intent.putExtra("type", responseModel.getType());
@@ -94,11 +101,29 @@ public class HomeFragment extends Fragment {
 
 
         if (packages.isEmpty()) {
-            getPostersRESPONSE("همه");
+            getPostersRESPONSE(pageNumber);
         } else {
-            getPostersRESPONSE(search.getText().toString());
+          //  getPostersRESPONSE(search.getText().toString());
 
         }
+        nestedSV.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @SuppressLint("SuspiciousIndentation")
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                // on scroll change we are checking when users scroll as bottom.
+                if (scrollY == v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) {
+                    // in this method we are incrementing page number,
+                    // making progress bar visible and calling get data method.
+                    pageNumber++;
+                        progress.setVisibility(View.VISIBLE);
+
+                    if(pageLoadType.equals("poster"))
+                    getPostersRESPONSE(pageNumber);
+                    if(pageLoadType.equals("tem"))
+                        getTemplatesRESPONSE(pageNumber);
+                }
+            }
+        });
 
         search.addTextChangedListener(new TextWatcher() {
             @Override
@@ -110,7 +135,7 @@ public class HomeFragment extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
                 if (s.length() > 0) {
-                    getSearchedResponse(s.toString());
+                    getSearchedResponse(s.toString(),pageNumber);
 
                 } else {
                     packagesAdapter.setResponseModels(packages);
@@ -137,12 +162,16 @@ public class HomeFragment extends Fragment {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if (tabLayout.getSelectedTabPosition() == 0) {
-                    getPostersRESPONSE("همه");
+                    packages.clear();
+                    getPostersRESPONSE(pageNumber);
+                    titlesManager(view,"occasion");
+                    pageLoadType="poster";
                 } else if (tabLayout.getSelectedTabPosition() == 1) {
+                    packages.clear();
                     progress.setVisibility(View.VISIBLE);
-                    getTemplatesRESPONSE("یلدا");
+                    getTemplatesRESPONSE(pageNumber);
                     titlesManager(view,"category");
-
+                    pageLoadType="tem";
 
                 }
             }
@@ -157,12 +186,12 @@ public class HomeFragment extends Fragment {
             public void onTabReselected(TabLayout.Tab tab) {
                 if (tabLayout.getSelectedTabPosition() == 0) {
                     progress.setVisibility(View.VISIBLE);
-                    getPostersRESPONSE("همه");
+                    getPostersRESPONSE(pageNumber);
                     titlesManager(view,"occasion");
 
                 } else if (tabLayout.getSelectedTabPosition() == 1) {
                     progress.setVisibility(View.VISIBLE);
-                    getTemplatesRESPONSE("یلدا");
+                    getTemplatesRESPONSE(pageNumber);
                     titlesManager(view,"category");
 
 
@@ -188,7 +217,7 @@ public class HomeFragment extends Fragment {
                 @SuppressLint("NotifyDataSetChanged")
                 @Override
                 public void onResponse(List<TitlesModel> response) {
-
+                    titles.clear();
                     titles.addAll(response);
                     sortTitlesAdapter.notifyDataSetChanged();
 
@@ -207,7 +236,7 @@ public class HomeFragment extends Fragment {
                 @SuppressLint("NotifyDataSetChanged")
                 @Override
                 public void onResponse(List<TitlesModel> response) {
-
+                    titles.clear();
                     titles.addAll(response);
                     sortTitlesAdapter.notifyDataSetChanged();
 
@@ -228,9 +257,12 @@ public class HomeFragment extends Fragment {
             @Override
             public void onItemClick(TitlesModel title) {
                 selectedTab = title.getOccasion();
-
-                getPostersRESPONSE(selectedTab);
-
+              //  getPostersRESPONSE(selectedTab);
+                if(selectedTab.equals("همه")){
+                    getPostersRESPONSE(pageNumber);
+                }else{
+                    getCategoryResponse(selectedTab,pageNumber);
+                }
 
             }
         });
@@ -238,40 +270,72 @@ public class HomeFragment extends Fragment {
 
     }
 
-    public void getSearchedResponse(String search) {
-        apiService.getSearchedResponse(search, new Response.Listener<List<ResponseModel>>() {
+    public void getSearchedResponse(String search,int pageNumber) {
+        apiService.getSearchedResponse(search,pageNumber, new Response.Listener<List<ResponseModel>>() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onResponse(List<ResponseModel> response) {
+                packages.clear();
                 packagesAdapter.setResponseModels(response);
                 packagesAdapter.notifyDataSetChanged();
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getContext(), "مشکلی رخ داده است", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+    }
+
+    public void getCategoryResponse(String category,int pageNumber){
+        packages.clear();
+        apiService.getResponseByCategory(category, pageNumber, new Response.Listener<List<ResponseModel>>() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onResponse(List<ResponseModel> response) {
+                progress.setVisibility(View.GONE);
+                if (response.size() > 0) {
+                    packages.addAll(response);
+                    packagesAdapter.notifyDataSetChanged();
+
+                } else {
+                        Toast.makeText(getContext(), "موردی پیدا نشد.", Toast.LENGTH_SHORT).show();
+
+
+                }
 
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getContext(), "مشکلی رخ داده است", Toast.LENGTH_SHORT).show();
 
             }
         });
+        }
 
-    }
+    public void getPostersRESPONSE(int pageNumber) {
 
-    public void getPostersRESPONSE(String request) {
+        Toast.makeText(getContext(), String.valueOf( packages.size()), Toast.LENGTH_SHORT).show();
 
-        apiService.getPostersResponse(request, new Response.Listener<List<ResponseModel>>() {
+        apiService.getAllPostersResponse(pageNumber, new Response.Listener<List<ResponseModel>>() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onResponse(List<ResponseModel> response) {
+                progress.setVisibility(View.GONE);
                 if (response.size() > 0) {
-                    packages.clear();
                     packages.addAll(response);
                     packagesAdapter.notifyDataSetChanged();
-                    progress.setVisibility(View.GONE);
 
                 } else {
-                    Toast.makeText(getContext(), "موردی پیدا نشد.", Toast.LENGTH_SHORT).show();
+                    if (packages.isEmpty()){
+                        Toast.makeText(getContext(), "موردی پیدا نشد.", Toast.LENGTH_SHORT).show();
 
+                    }
                 }
 
             }
@@ -286,21 +350,22 @@ public class HomeFragment extends Fragment {
 
 
     }
-    public void getTemplatesRESPONSE(String request) {
+    public void getTemplatesRESPONSE(int pageNumber) {
 
-        apiService.getTemplatesResponse(request, new Response.Listener<List<ResponseModel>>() {
+        apiService.getAllTemplatesResponse(pageNumber, new Response.Listener<List<ResponseModel>>() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onResponse(List<ResponseModel> response) {
+                progress.setVisibility(View.GONE);
                 if (response.size() > 0) {
-                    packages.clear();
                     packages.addAll(response);
                     packagesAdapter.notifyDataSetChanged();
-                    progress.setVisibility(View.GONE);
 
                 } else {
-                    Toast.makeText(getContext(), "موردی پیدا نشد.", Toast.LENGTH_SHORT).show();
+                    if (packages.isEmpty()){
+                        Toast.makeText(getContext(), "موردی پیدا نشد.", Toast.LENGTH_SHORT).show();
 
+                    }
                 }
 
             }

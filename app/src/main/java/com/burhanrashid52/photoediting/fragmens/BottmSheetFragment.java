@@ -21,6 +21,7 @@ import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -41,6 +42,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Registry;
+import com.burhanrashid52.photoediting.Dialogs.LoginDialog;
 import com.burhanrashid52.photoediting.DownloadPackageHelper;
 import com.burhanrashid52.photoediting.FileUtils;
 import com.burhanrashid52.photoediting.InAppBill;
@@ -111,7 +113,16 @@ public class BottmSheetFragment extends BottomSheetDialogFragment {
         String substring = packageUrl.substring(29, endIndex - 4);
         File extracted = new File(unzipPath + "/" + substring);
 
-            if (price == 0) {
+
+        downLoad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoginDialog loginDialog=new LoginDialog(getActivity());
+                loginDialog.show();
+            }
+        });
+
+      /*      if (price == 0) {
                 priceTextview.setText("رایگان");
                 downLoad.setOnClickListener(new View.OnClickListener() {
                     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -151,7 +162,7 @@ public class BottmSheetFragment extends BottomSheetDialogFragment {
                     }
                 });
 
-            }
+            }*/
 
 
         return view;

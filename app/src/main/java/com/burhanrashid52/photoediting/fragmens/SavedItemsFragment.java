@@ -1,44 +1,26 @@
 package com.burhanrashid52.photoediting.fragmens;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.burhanrashid52.photoediting.Adapters.DownloadedPackagesAdapter;
-import com.burhanrashid52.photoediting.Adapters.PackagesAdapter;
 import com.burhanrashid52.photoediting.Adapters.SavedPackagesAdapter;
-import com.burhanrashid52.photoediting.Adapters.SortTitlesAdapter;
 import com.burhanrashid52.photoediting.R;
-import com.burhanrashid52.photoediting.activitys.DownloadedPreview;
 import com.burhanrashid52.photoediting.activitys.PreviewActivity;
 import com.burhanrashid52.photoediting.api.ApiService;
 import com.burhanrashid52.photoediting.database.AppDataBase;
-import com.burhanrashid52.photoediting.database.LocalModel;
 import com.burhanrashid52.photoediting.database.SavedModel;
 import com.burhanrashid52.photoediting.database.TaskDao;
-import com.burhanrashid52.photoediting.models.ResponseModel;
-import com.google.android.material.textfield.TextInputEditText;
 
-import java.io.File;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -16,13 +16,18 @@ public class ApiService {
     Context context;
     RequestQueue requestQueue;
 
+    int pageSize=10;
+
+    String BaseUrl="http://10.0.2.2:5249/";//"https://devejumpgroup.ir/";
+
     public ApiService(Context context) {
         this.context = context;
         requestQueue= Volley.newRequestQueue(context);
 
     }
 
-    public void getPostersResponse(String occasion, Response.Listener<List<ResponseModel>> listener, Response.ErrorListener errorListener){
+ /*   public void getPostersResponse(String occasion,
+ Response.Listener<List<ResponseModel>> listener, Response.ErrorListener errorListener){
 
         GsonRequest<List<ResponseModel>> gsonRequest=new GsonRequest<List<ResponseModel>>(Request.Method.GET,
                 "https://devejumpgroup.ir/show_news.php?occasion="+occasion,
@@ -31,21 +36,40 @@ public class ApiService {
         requestQueue.add(gsonRequest);
 
 
-    }
-
-    public void getTemplatesResponse(String category, Response.Listener<List<ResponseModel>> listener, Response.ErrorListener errorListener){
+    }*/
+public void getAllPostersResponse(int pageNumber,
+                                  Response.Listener<List<ResponseModel>> listener,
+                                  Response.ErrorListener errorListener){
 
         GsonRequest<List<ResponseModel>> gsonRequest=new GsonRequest<List<ResponseModel>>(Request.Method.GET,
-                "https://devejumpgroup.ir/show_news.php?occasion="+category,
+                BaseUrl+"packages/posters?pageNumber="+pageNumber+"&pageSize="+pageSize,
                 new TypeToken<List<ResponseModel>>(){}.getType(),listener,errorListener);
 
         requestQueue.add(gsonRequest);
 
 
     }
-    public void setDownloadCount(int id,int count,Response.Listener<String>listener,Response.ErrorListener errorListener){
 
-        GsonRequest<String> gsonRequest=new GsonRequest<>(Request.Method.GET,"http://devejumpgroup.ir/download_counting.php?id="+id+"&count="+count
+    public void getAllTemplatesResponse(int pageNumber,
+                                        Response.Listener<List<ResponseModel>> listener,
+                                        Response.ErrorListener errorListener){
+
+        GsonRequest<List<ResponseModel>> gsonRequest=new GsonRequest<List<ResponseModel>>(Request.Method.GET,
+                BaseUrl+"packages/temps?pageNumber="+pageNumber+"&pageSize="+pageSize,
+                new TypeToken<List<ResponseModel>>(){}.getType(),listener,errorListener);
+
+        requestQueue.add(gsonRequest);
+
+
+    }
+    public void setDownloadCount(int id,
+                                 int count,
+                                 Response.Listener<String>listener,
+                                 Response.ErrorListener errorListener){
+
+        GsonRequest<String> gsonRequest=new GsonRequest<>(
+                Request.Method.GET,
+                BaseUrl+"download_counting.php?id="+id+"&count="+count
         ,new TypeToken<String>(){}.getType(),listener,errorListener);
 
        /* JsonObject jsonObject=new JsonObject();
@@ -57,20 +81,39 @@ public class ApiService {
 
 
     }
-    public void getOccasion(Response.Listener<List<TitlesModel>> listener,Response.ErrorListener errorListener){
+  /*  public void getOccasion(Response.Listener<List<TitlesModel>> listener,Response.ErrorListener errorListener){
 
-        GsonRequest<List<TitlesModel>> gsonRequest=new GsonRequest<>(Request.Method.GET,"http://devejumpgroup.ir/titles.php",new TypeToken<List<TitlesModel>>(){}.getType(),listener,errorListener);
+        GsonRequest<List<TitlesModel>> gsonRequest=
+        new GsonRequest<>(Request.Method.GET,
+        "http://devejumpgroup.ir/titles.php",
+        new TypeToken<List<TitlesModel>>(){}.getType(),listener,errorListener);
+        requestQueue.add(gsonRequest);
+
+    }*/
+ public void getOccasion(Response.Listener<List<TitlesModel>> listener,Response.ErrorListener errorListener){
+
+        GsonRequest<List<TitlesModel>>
+                gsonRequest=new GsonRequest<>(
+                        Request.Method.GET,
+                BaseUrl+"occasions/",
+                new TypeToken<List<TitlesModel>>(){}.getType(),listener,errorListener);
         requestQueue.add(gsonRequest);
 
     }
-    public void getTemplatesCategory(Response.Listener<List<TitlesModel>> listener,Response.ErrorListener errorListener){
+    public void getTemplatesCategory(Response.Listener<List<TitlesModel>> listener,
+                                     Response.ErrorListener errorListener){
 
-        GsonRequest<List<TitlesModel>> gsonRequest=new GsonRequest<>(Request.Method.GET,"http://devejumpgroup.ir/titles.php",new TypeToken<List<TitlesModel>>(){}.getType(),listener,errorListener);
+        GsonRequest<List<TitlesModel>> gsonRequest=new GsonRequest<>(
+                Request.Method.GET,
+                BaseUrl+"categories/",
+                new TypeToken<List<TitlesModel>>(){}.getType(),listener,errorListener);
         requestQueue.add(gsonRequest);
 
     }
 
-    public void getSearchedResponse(String search, Response.Listener<List<ResponseModel>> listener, Response.ErrorListener errorListener){
+   /* public void getSearchedResponse(String search,
+                                    Response.Listener<List<ResponseModel>> listener,
+                                    Response.ErrorListener errorListener){
 
         GsonRequest<List<ResponseModel>> gsonRequest=new GsonRequest<List<ResponseModel>>(Request.Method.GET,
                 "http://devejumpgroup.ir/search.php?search="+search,
@@ -79,7 +122,36 @@ public class ApiService {
         requestQueue.add(gsonRequest);
 
 
+    }*/
+ public void getSearchedResponse(String search,int pageNumber,
+                                    Response.Listener<List<ResponseModel>> listener,
+                                    Response.ErrorListener errorListener){
+
+        GsonRequest<List<ResponseModel>> gsonRequest=new GsonRequest<List<ResponseModel>>(Request.Method.GET,
+                BaseUrl+"packages/search?query="
+                        +search+"&pageNumber="+pageNumber+"&pageSize="+pageSize,
+                new TypeToken<List<ResponseModel>>(){}.getType(),listener,errorListener);
+
+        requestQueue.add(gsonRequest);
+
+
     }
+
+    public void getResponseByCategory(String category,int pageNumber,
+                                    Response.Listener<List<ResponseModel>> listener,
+                                    Response.ErrorListener errorListener){
+
+        GsonRequest<List<ResponseModel>> gsonRequest=new GsonRequest<List<ResponseModel>>(Request.Method.GET,
+                BaseUrl+"packages/category?category="
+                        +category+"&pageNumber="+pageNumber+"&pageSize="+pageSize,
+                new TypeToken<List<ResponseModel>>(){}.getType(),listener,errorListener);
+
+        requestQueue.add(gsonRequest);
+
+
+    }
+
+   // public void sendPhoneNumberAndUserName(Str)
 
 
 

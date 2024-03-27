@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class TitlesModel(
 
-	@field:SerializedName("occasion")
+	@field:SerializedName("name")
 	val occasion: String? = null,
 
 	@field:SerializedName("id")
