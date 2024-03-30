@@ -92,7 +92,7 @@ public class PackagesAdapter extends RecyclerView.Adapter<PackagesAdapter.Packag
         }
         public void packageBinder(ResponseModel responseModel){
             Glide.with(itemView.getContext())
-                    .load(responseModel.getHeaderUrl())
+                    .load(responseModel.getHeaderURL())
                     //.thumbnail(0.1f)
                     .into(imageView);
            // downLoadCount.setText(responseModel.getDownloadCount());

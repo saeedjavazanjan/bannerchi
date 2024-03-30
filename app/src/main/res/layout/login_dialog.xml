@@ -23,7 +23,7 @@
         app:tabTextColor="@color/darkGray" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/phoneNumberLayout"
+        android:id="@+id/signUpLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="visible"

@@ -18,7 +18,7 @@ public class ApiService {
 
     int pageSize=10;
 
-    String BaseUrl="http://10.0.2.2:5249/";//"https://devejumpgroup.ir/";
+    String BaseUrl="http://192.168.1.167:5249/";//"https://devejumpgroup.ir/";
 
     public ApiService(Context context) {
         this.context = context;
@@ -43,6 +43,22 @@ public void getAllPostersResponse(int pageNumber,
 
         GsonRequest<List<ResponseModel>> gsonRequest=new GsonRequest<List<ResponseModel>>(Request.Method.GET,
                 BaseUrl+"packages/posters?pageNumber="+pageNumber+"&pageSize="+pageSize,
+                new TypeToken<List<ResponseModel>>(){}.getType(),listener,errorListener);
+
+        requestQueue.add(gsonRequest);
+
+
+    }
+public void getAllResponse(int pageNumber,
+                                  String searchString,
+                                  String type,
+                                  Response.Listener<List<ResponseModel>> listener,
+                                  Response.ErrorListener errorListener){
+
+        GsonRequest<List<ResponseModel>> gsonRequest=new GsonRequest<List<ResponseModel>>(Request.Method.GET,
+                BaseUrl+"packages/filteredResult?pageNumber="+pageNumber+
+                        "&search="+searchString+
+                        "&type="+type,
                 new TypeToken<List<ResponseModel>>(){}.getType(),listener,errorListener);
 
         requestQueue.add(gsonRequest);

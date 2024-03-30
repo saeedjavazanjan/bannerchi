@@ -10,7 +10,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -19,16 +18,19 @@ import com.burhanrashid52.photoediting.R;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 public class LoginDialog extends Dialog {
 
     TabLayout tabLayout;
     TextInputEditText userName,phoneNumber,otp, jobTitle;
-    AutoCompleteTextView typeOfPage;
+    AutoCompleteTextView typeOfPageTxt;
+    TextInputLayout typOfPageLayout;
     MaterialButton sendOtpBtn,sendPhoneNumberBtn;
     ConstraintLayout otpLayout,phoneNumberLayout;
     String[] pageType={"شخصی","کاری"};
 
+    String requestType="SignUp";
     Context context;
     public LoginDialog(@NonNull Context context) {
         super(context);
@@ -51,7 +53,7 @@ public class LoginDialog extends Dialog {
 
         otpLayout = findViewById(R.id.otpLayout);
 
-        phoneNumberLayout = findViewById(R.id.phoneNumberLayout);
+        phoneNumberLayout = findViewById(R.id.signUpLayout);
 
         userName = findViewById(R.id.userNameEdt);
 
@@ -67,10 +69,12 @@ public class LoginDialog extends Dialog {
 
         sendPhoneNumberBtn = findViewById(R.id.sendPhoneNumberBtn);
 
+        typOfPageLayout =findViewById(R.id.typOfPage);
+
         ArrayAdapter<String> adapter=new ArrayAdapter<String>(context,android.R.layout.simple_dropdown_item_1line,pageType);
-        typeOfPage=(AutoCompleteTextView)findViewById(R.id.txtTypeOfPage);
-        typeOfPage.setThreshold(1);
-        typeOfPage.setAdapter(adapter);
+        typeOfPageTxt =(AutoCompleteTextView)findViewById(R.id.txtTypeOfPage);
+        typeOfPageTxt.setThreshold(1);
+        typeOfPageTxt.setAdapter(adapter);
 
         tabLayout.addTab(tabLayout.newTab().setText("ثبت نام"));
         tabLayout.addTab(tabLayout.newTab().setText("ورود"));
@@ -80,12 +84,17 @@ public class LoginDialog extends Dialog {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if (tabLayout.getSelectedTabPosition() == 1) {
+                    requestType="signIn";
                     userName.setVisibility(View.GONE);
+                    jobTitle.setVisibility(View.GONE);
+                    typOfPageLayout.setVisibility(View.GONE);
 
                 }
                 if (tabLayout.getSelectedTabPosition() == 0) {
+                    requestType="signUp";
                     userName.setVisibility(View.VISIBLE);
-
+                    jobTitle.setVisibility(View.VISIBLE);
+                    typOfPageLayout.setVisibility(View.VISIBLE);
                 }
 
             }
@@ -104,9 +113,23 @@ public class LoginDialog extends Dialog {
         sendPhoneNumberBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(requestType.equals("signUp")){
+
+                }else if(requestType.equals("signIn")){
+
+                }
 
 
             }
         });
     }
+
+
+   /* private String signUp(){
+
+    }
+
+    private String signIn(){
+
+    }*/
 }
