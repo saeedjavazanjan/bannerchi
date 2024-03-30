@@ -9,9 +9,9 @@ public class ResponseModel implements Serializable {
 
 	private String samples;
 	private String name;
-	private String headerUrl;
+	private String headerURL;
 	private int id;
-	private String packageUrl;
+	private String packageURL;
 	private String category;
 	private int price;
 
@@ -39,16 +39,16 @@ public class ResponseModel implements Serializable {
 		return name;
 	}
 
-	public String getHeaderUrl(){
-		return headerUrl;
+	public String getHeaderURL(){
+		return headerURL;
 	}
 
 	public int getId(){
 		return id;
 	}
 
-	public String getPackageUrl(){
-		return packageUrl;
+	public String getPackageURL(){
+		return packageURL;
 	}
 
 	public String getOcassion(){

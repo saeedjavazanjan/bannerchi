@@ -18,10 +18,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
 import com.burhanrashid52.photoediting.Adapters.PackagesAdapter;
 import com.burhanrashid52.photoediting.Adapters.SortTitlesAdapter;
 import com.burhanrashid52.photoediting.R;
@@ -34,7 +32,6 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 
 public class HomeFragment extends Fragment {
@@ -55,6 +52,7 @@ public class HomeFragment extends Fragment {
     LinearLayout progress;
     int pageNumber=1;
     String pageLoadType="poster";
+    String searchString="";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -83,12 +81,12 @@ public class HomeFragment extends Fragment {
             public void onClick(ResponseModel responseModel) {
                 Intent intent = new Intent(getContext(), PreviewActivity.class);
                 intent.putExtra("name", responseModel.getName());
-                intent.putExtra("packageUrl", responseModel.getPackageUrl());
+                intent.putExtra("packageUrl", responseModel.getPackageURL());
                 intent.putExtra("designer", responseModel.getDesigner());
                 intent.putExtra("id", responseModel.getId());
                 intent.putExtra("occasion", responseModel.getOcassion());
                 intent.putExtra("downloadCount", responseModel.getDownloadCount());
-                intent.putExtra("headerUrl", responseModel.getHeaderUrl());
+                intent.putExtra("headerUrl", responseModel.getHeaderURL());
                 intent.putExtra("price", responseModel.getPrice());
                 intent.putExtra("samples", responseModel.getSamples());
                 intent.putExtra("type", responseModel.getType());
@@ -101,7 +99,7 @@ public class HomeFragment extends Fragment {
 
 
         if (packages.isEmpty()) {
-            getPostersRESPONSE(pageNumber);
+            getAllRESPONSE(pageNumber,searchString,pageLoadType);
         } else {
           //  getPostersRESPONSE(search.getText().toString());
 
@@ -117,10 +115,15 @@ public class HomeFragment extends Fragment {
                     pageNumber++;
                         progress.setVisibility(View.VISIBLE);
 
-                    if(pageLoadType.equals("poster"))
+                        getAllRESPONSE(
+                                pageNumber,
+                                searchString,
+                                pageLoadType
+                        );
+                   /* if(pageLoadType.equals("poster"))
                     getPostersRESPONSE(pageNumber);
                     if(pageLoadType.equals("tem"))
-                        getTemplatesRESPONSE(pageNumber);
+                        getTemplatesRESPONSE(pageNumber);*/
                 }
             }
         });
@@ -133,15 +136,19 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                pageNumber=1;
+                packages.clear();
                 if (s.length() > 0) {
-                    getSearchedResponse(s.toString(),pageNumber);
-
+                    searchString=s.toString();
+                  //  getSearchedResponse(s.toString(),pageNumber);
+                    getAllRESPONSE(pageNumber,searchString,pageLoadType);
                 } else {
+                    searchString="";
                     packagesAdapter.setResponseModels(packages);
                     packagesAdapter.notifyDataSetChanged();
-                    searchedPackages.clear();
-
+                    search.clearFocus();
+                   // getCategoryResponse(selectedTab,pageNumber);
+                    getAllRESPONSE(pageNumber,searchString,pageLoadType);
 
                 }
 
@@ -161,17 +168,22 @@ public class HomeFragment extends Fragment {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                pageNumber=1;
                 if (tabLayout.getSelectedTabPosition() == 0) {
                     packages.clear();
-                    getPostersRESPONSE(pageNumber);
                     titlesManager(view,"occasion");
                     pageLoadType="poster";
+                    searchString="";
+                    getAllRESPONSE(pageNumber,searchString,pageLoadType);
+
                 } else if (tabLayout.getSelectedTabPosition() == 1) {
                     packages.clear();
                     progress.setVisibility(View.VISIBLE);
-                    getTemplatesRESPONSE(pageNumber);
                     titlesManager(view,"category");
                     pageLoadType="tem";
+                    searchString="";
+                    getAllRESPONSE(pageNumber,searchString,pageLoadType);
+
 
                 }
             }
@@ -184,18 +196,19 @@ public class HomeFragment extends Fragment {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
+               /* pageNumber=1;
                 if (tabLayout.getSelectedTabPosition() == 0) {
                     progress.setVisibility(View.VISIBLE);
-                    getPostersRESPONSE(pageNumber);
+                    getAllRESPONSE(pageNumber,searchString,pageLoadType);
                     titlesManager(view,"occasion");
 
                 } else if (tabLayout.getSelectedTabPosition() == 1) {
                     progress.setVisibility(View.VISIBLE);
-                    getTemplatesRESPONSE(pageNumber);
+                    getAllRESPONSE(pageNumber,searchString,pageLoadType);
                     titlesManager(view,"category");
 
 
-                }
+                }*/
 
 
             }
@@ -256,13 +269,12 @@ public class HomeFragment extends Fragment {
         sortTitlesAdapter.setOnclickTitle(new SortTitlesAdapter.OnclickTitle() {
             @Override
             public void onItemClick(TitlesModel title) {
-                selectedTab = title.getOccasion();
-              //  getPostersRESPONSE(selectedTab);
-                if(selectedTab.equals("همه")){
-                    getPostersRESPONSE(pageNumber);
-                }else{
-                    getCategoryResponse(selectedTab,pageNumber);
-                }
+                pageNumber=1;
+                packages.clear();
+                searchString = title.getOccasion();
+                //  getCategoryResponse(selectedTab,pageNumber);
+                    getAllRESPONSE(pageNumber,searchString,pageLoadType);
+
 
             }
         });
@@ -270,12 +282,12 @@ public class HomeFragment extends Fragment {
 
     }
 
+/*
     public void getSearchedResponse(String search,int pageNumber) {
         apiService.getSearchedResponse(search,pageNumber, new Response.Listener<List<ResponseModel>>() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onResponse(List<ResponseModel> response) {
-                packages.clear();
                 packagesAdapter.setResponseModels(response);
                 packagesAdapter.notifyDataSetChanged();
 
@@ -289,15 +301,18 @@ public class HomeFragment extends Fragment {
         });
 
     }
+*/
 
+/*
     public void getCategoryResponse(String category,int pageNumber){
-        packages.clear();
+
         apiService.getResponseByCategory(category, pageNumber, new Response.Listener<List<ResponseModel>>() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onResponse(List<ResponseModel> response) {
                 progress.setVisibility(View.GONE);
                 if (response.size() > 0) {
+                    packages.clear();
                     packages.addAll(response);
                     packagesAdapter.notifyDataSetChanged();
 
@@ -317,7 +332,9 @@ public class HomeFragment extends Fragment {
             }
         });
         }
+*/
 
+/*
     public void getPostersRESPONSE(int pageNumber) {
 
         Toast.makeText(getContext(), String.valueOf( packages.size()), Toast.LENGTH_SHORT).show();
@@ -350,6 +367,40 @@ public class HomeFragment extends Fragment {
 
 
     }
+*/
+    public void getAllRESPONSE(int pageNumber, String search,String type) {
+
+       // Toast.makeText(getContext(), String.valueOf( packages.size()), Toast.LENGTH_SHORT).show();
+
+        apiService.getAllResponse(pageNumber,search, type, new Response.Listener<List<ResponseModel>>() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onResponse(List<ResponseModel> response) {
+                progress.setVisibility(View.GONE);
+                if (response.size() > 0) {
+                    packages.addAll(response);
+                    packagesAdapter.notifyDataSetChanged();
+
+                } else {
+                    if (packages.isEmpty()){
+                        Toast.makeText(getContext(), "موردی پیدا نشد.", Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // Snackbar.make(linearLayout,"خطا در ارتباط...",Snackbar.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "خطا در ارتباط...", Toast.LENGTH_SHORT).show();
+                progress.setVisibility(View.GONE);
+            }
+        });
+
+
+    }
+/*
     public void getTemplatesRESPONSE(int pageNumber) {
 
         apiService.getAllTemplatesResponse(pageNumber, new Response.Listener<List<ResponseModel>>() {
@@ -380,4 +431,5 @@ public class HomeFragment extends Fragment {
 
 
     }
+*/
 }
