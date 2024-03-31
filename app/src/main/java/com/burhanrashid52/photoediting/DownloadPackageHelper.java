@@ -208,7 +208,7 @@ public class DownloadPackageHelper {
         notificationManager.notify(101, notification);
     }
     public void downloadCounting(){
-        ApiService apiService=new ApiService(context);
+        ApiService apiService= ApiService.getInstance(context);
         int count= Integer.parseInt(downloadCount)+1;
         apiService.setDownloadCount(id, count, new Response.Listener<String>() {
             @Override
