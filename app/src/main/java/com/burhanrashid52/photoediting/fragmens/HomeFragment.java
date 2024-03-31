@@ -68,7 +68,7 @@ public class HomeFragment extends Fragment {
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         mainRecycler.setLayoutManager(layoutManager);
 
-        apiService = new ApiService(getContext());
+        apiService =  ApiService.getInstance(getContext());
         packagesAdapter = new PackagesAdapter();
 
         titlesManager(view,"occasion");
