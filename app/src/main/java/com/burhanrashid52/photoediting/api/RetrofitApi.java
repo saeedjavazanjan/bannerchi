@@ -20,5 +20,9 @@ public interface RetrofitApi {
     Call<ResponseBody> signIn(@Body SignInRequestModel signInRequestModel);
 @POST("users/signUpPasswordCheck")
         //on below line we are creating a method to post our data.
-    Call<UserLoginResponse> signUpPasswordCheck(@Body AdUserDtoModel adUserDtoModel);
+    Call<ResponseBody> signUpPasswordCheck(@Body AdUserDtoModel adUserDtoModel);
+
+    @POST("users/signInPasswordCheck")
+        //on below line we are creating a method to post our data.
+    Call<ResponseBody> signInPasswordCheck(@Body SignInRequestModel signInRequestModel);
 }

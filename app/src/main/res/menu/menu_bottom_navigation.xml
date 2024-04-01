@@ -15,6 +15,6 @@
         android:title="علاقه مندی ها" />
     <item android:id="@+id/account"
         android:enabled="true"
-        android:icon="@drawable/ic_baseline_supervised_user_circle_24"
-        android:title="درباره ما" />
+        android:icon="@drawable/baseline_account_circle_24"
+        android:title="پروفایل" />
 </menu>
