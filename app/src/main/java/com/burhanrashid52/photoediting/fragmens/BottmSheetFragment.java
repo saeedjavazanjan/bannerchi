@@ -1,5 +1,6 @@
 package com.burhanrashid52.photoediting.fragmens;
 
+import static android.content.Context.MODE_PRIVATE;
 import static android.content.Context.NOTIFICATION_SERVICE;
 
 import android.Manifest;
@@ -82,6 +83,9 @@ public class BottmSheetFragment extends BottomSheetDialogFragment {
     public static Button downLoad;
     boolean saved;
     TaskDao taskDao;
+    SharedPreferences sharedPreferences;
+
+    String token;
     Bundle bundle;
     public static ProgressBar progressBar;
     InAppBill bazar;
@@ -91,7 +95,8 @@ public class BottmSheetFragment extends BottomSheetDialogFragment {
         super.onCreate(savedInstanceState);
         bazar=new InAppBill(getContext(),getActivity());
         taskDao = AppDataBase.getAppDataBase(getContext()).getTaskDao();
-
+        sharedPreferences = Objects.requireNonNull(getContext()).getSharedPreferences("MySharedPref",MODE_PRIVATE);
+        token=sharedPreferences.getString("token","empty");
         setStyle(STYLE_NORMAL, R.style.AppBottomSheetDialogTheme);
      bundle=  getBundle();
 
@@ -114,55 +119,61 @@ public class BottmSheetFragment extends BottomSheetDialogFragment {
         File extracted = new File(unzipPath + "/" + substring);
 
 
-        downLoad.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LoginDialog loginDialog=new LoginDialog(getActivity());
-                loginDialog.show();
-            }
-        });
 
-      /*      if (price == 0) {
+
+            if (price == 0) {
                 priceTextview.setText("رایگان");
                 downLoad.setOnClickListener(new View.OnClickListener() {
                     @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void onClick(View v) {
-                        if (extracted.exists()) {
-                            Toast.makeText(getContext(), "این فایل قبلا دانلود شده است.", Toast.LENGTH_SHORT).show();
+                        if (token.equals("empty")){
+                            LoginDialog loginDialog=new LoginDialog(getActivity());
+                            loginDialog.show();
+                        }else{
+                            if (extracted.exists()) {
+                                Toast.makeText(getContext(), "این فایل قبلا دانلود شده است.", Toast.LENGTH_SHORT).show();
 
-
-                        } else {
-                            if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-
-                                requestStoragePermission();
 
                             } else {
-                                DownloadPackageHelper downloadPackageHelper = new DownloadPackageHelper(getContext(), bundle);
-                                downloadPackageHelper.downloading();
+                                if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+                                    requestStoragePermission();
+
+                                } else {
+                                    DownloadPackageHelper downloadPackageHelper = new DownloadPackageHelper(getContext(), bundle);
+                                    downloadPackageHelper.downloading();
+                                }
+                            }
+                        }
+
+
+
+                    }
+                });
+
+            } else {
+                priceTextview.setText("اشتراکی");
+                downLoad.setText("خرید پکیج");
+                downLoad.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (token.equals("empty")){
+                            LoginDialog loginDialog=new LoginDialog(getActivity());
+                            loginDialog.show();
+                        }else {
+                            if (extracted.exists()) {
+                                Toast.makeText(getContext(), "این فایل قبلا دانلود شده است.", Toast.LENGTH_SHORT).show();
+
+
+                            } else {
+                                bazar.connectToBazar(bundle, price, name, String.valueOf(id));
                             }
                         }
                     }
                 });
 
-            } else {
-                priceTextview.setText(price + "تومان");
-                downLoad.setText("خرید پکیج");
-                downLoad.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (extracted.exists()) {
-                            Toast.makeText(getContext(), "این فایل قبلا دانلود شده است.", Toast.LENGTH_SHORT).show();
-
-
-                        } else {
-                            bazar.connectToBazar(bundle,price,name,String.valueOf(id));
-                        }
-
-                    }
-                });
-
-            }*/
+            }
 
 
         return view;

@@ -62,8 +62,12 @@ public class RetrofitApiImpl {
 
         call.enqueue(callback);
     }
- public void signUpPasswordCheck(AdUserDtoModel adUserDtoModel , Callback<UserLoginResponse> callback){
-        Call<UserLoginResponse> call = retrofitAPI.signUpPasswordCheck(adUserDtoModel);
+ public void signUpPasswordCheck(AdUserDtoModel adUserDtoModel , Callback<ResponseBody> callback){
+        Call<ResponseBody> call = retrofitAPI.signUpPasswordCheck(adUserDtoModel);
+        call.enqueue(callback);
+    }
+public void signInPasswordCheck(SignInRequestModel signInRequestModel , Callback<ResponseBody> callback){
+        Call<ResponseBody> call = retrofitAPI.signInPasswordCheck(signInRequestModel);
         call.enqueue(callback);
     }
 

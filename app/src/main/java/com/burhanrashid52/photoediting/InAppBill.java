@@ -2,7 +2,6 @@ package com.burhanrashid52.photoediting;
 
 import static android.content.Context.MODE_PRIVATE;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -10,16 +9,17 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 
-import com.burhanrashid52.photoediting.fragmens.BottmSheetFragment;
+import java.util.ArrayList;
+import java.util.List;
 
 import ir.cafebazaar.poolakey.Connection;
 import ir.cafebazaar.poolakey.Payment;
 import ir.cafebazaar.poolakey.callback.ConnectionCallback;
 import ir.cafebazaar.poolakey.callback.ConsumeCallback;
 import ir.cafebazaar.poolakey.callback.PurchaseCallback;
+import ir.cafebazaar.poolakey.callback.PurchaseQueryCallback;
 import ir.cafebazaar.poolakey.config.PaymentConfiguration;
 import ir.cafebazaar.poolakey.config.SecurityCheck;
 import ir.cafebazaar.poolakey.entity.PurchaseInfo;
@@ -94,8 +94,66 @@ public  Bundle Current_bundle;
                 break;
         }
         PurchaseRequest purchaseRequest=new PurchaseRequest(packageName,pName+pId,"");
+        payment.subscribeProduct(activity.getActivityResultRegistry(), purchaseRequest, new Function1<PurchaseCallback, Unit>() {
+            @Override
+            public Unit invoke(PurchaseCallback purchaseCallback) {
+                purchaseCallback.failedToBeginFlow(new Function1<Throwable, Unit>() {
+                    @Override
+                    public Unit invoke(Throwable throwable) {
+                        Toast.makeText(context, "مشکلی رخ داده است.", Toast.LENGTH_SHORT).show();
 
-        payment.purchaseProduct(activity.getActivityResultRegistry(), purchaseRequest, new Function1<PurchaseCallback, Unit>() {
+                        return null;
+                    }
+                });
+                purchaseCallback.purchaseCanceled(new Function0<Unit>() {
+                    @Override
+                    public Unit invoke() {
+                        Toast.makeText(context, "خرید لغو شد.", Toast.LENGTH_SHORT).show();
+
+                        return null;
+                    }
+                });
+                purchaseCallback.purchaseFailed(new Function1<Throwable, Unit>() {
+                    @Override
+                    public Unit invoke(Throwable throwable) {
+                        Toast.makeText(context, "مشکلی رخ داده است.", Toast.LENGTH_SHORT).show();
+
+                        return null;
+                    }
+                });
+                purchaseCallback.purchaseSucceed(new Function1<PurchaseInfo, Unit>() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
+                    @Override
+                    public Unit invoke(PurchaseInfo purchaseInfo) {
+                        Toast.makeText(context, "خرید با موفقیت انجام شد", Toast.LENGTH_SHORT).show();
+                        PURCHASE_TOKEN=purchaseInfo.getPurchaseToken();
+                        editor = preferences.edit();
+                        editor.putString("PURCHASE_TOKEN", PURCHASE_TOKEN);
+                        editor.apply();
+
+                        DownloadPackageHelper downloadPackageHelper = new DownloadPackageHelper(context, Current_bundle);
+                        downloadPackageHelper.downloading();
+
+                        return null;
+                    }
+                });
+                purchaseCallback.purchaseFlowBegan(new Function0<Unit>() {
+                    @Override
+                    public Unit invoke() {
+                        //  Toast.makeText(context, "", Toast.LENGTH_SHORT).show();
+
+                        return null;
+                    }
+                });
+                return null;
+            }
+
+
+        });
+
+
+
+    /*    payment.purchaseProduct(activity.getActivityResultRegistry(), purchaseRequest, new Function1<PurchaseCallback, Unit>() {
             @Override
             public Unit invoke(PurchaseCallback purchaseCallback) {
                 purchaseCallback.failedToBeginFlow(new Function1<Throwable, Unit>() {
@@ -148,8 +206,35 @@ public  Bundle Current_bundle;
                 });
                 return null;
             }
-        });
+        });*/
 
+    }
+
+    public ArrayList<PurchaseInfo> getSubscribeState(){
+        final ArrayList<PurchaseInfo> purchaseInfo = new ArrayList<PurchaseInfo>();
+        payment.getSubscribedProducts(new Function1<PurchaseQueryCallback, Unit>() {
+            @Override
+            public Unit invoke(PurchaseQueryCallback purchaseQueryCallback) {
+
+                purchaseQueryCallback.queryFailed(new Function1<Throwable, Unit>() {
+                    @Override
+                    public Unit invoke(Throwable throwable) {
+                        return null;
+                    }
+                });
+                purchaseQueryCallback.querySucceed(new Function1<List<PurchaseInfo>, Unit>() {
+                    @Override
+                    public Unit invoke(List<PurchaseInfo> purchaseInfos) {
+                        purchaseInfo.addAll(purchaseInfos);
+
+                        return null;
+                    }
+                });
+
+                return null;
+            }
+        });
+        return purchaseInfo;
     }
     public static void consumeProduct(){
         preferences=activity.getSharedPreferences("TokenPref",MODE_PRIVATE);

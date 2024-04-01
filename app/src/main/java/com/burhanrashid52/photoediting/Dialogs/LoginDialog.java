@@ -6,13 +6,17 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -48,6 +52,7 @@ public class LoginDialog extends Dialog {
     TextInputLayout typOfPageLayout;
     MaterialButton sendOtpBtn,sendPhoneNumberBtn;
     ConstraintLayout otpLayout,phoneNumberLayout;
+    ProgressBar sendOtpPr,sendPhoneNumberPr;
     String[] pageType={"شخصی","کاری"};
 
     String requestType="signUp";
@@ -67,11 +72,13 @@ public class LoginDialog extends Dialog {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.login_dialog);
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+
         lp.copyFrom(this.getWindow().getAttributes());
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         lp.gravity = Gravity.CENTER;
         this.getWindow().setAttributes(lp);
+        this.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
          sharedPreferences = context.getSharedPreferences("MySharedPref",MODE_PRIVATE);
         myEdit = sharedPreferences.edit();
@@ -95,6 +102,9 @@ public class LoginDialog extends Dialog {
 
         sendPhoneNumberBtn = findViewById(R.id.sendPhoneNumberBtn);
 
+        sendOtpPr = findViewById(R.id.sendOtpProgress);
+        sendPhoneNumberPr = findViewById(R.id.sendPhoneNumberProgress);
+
         typOfPageLayout =findViewById(R.id.typOfPage);
 
         ArrayAdapter<String> adapter=new ArrayAdapter<String>(context,android.R.layout.simple_dropdown_item_1line,pageType);
@@ -114,13 +124,16 @@ public class LoginDialog extends Dialog {
                     userName.setVisibility(View.GONE);
                     jobTitle.setVisibility(View.GONE);
                     typOfPageLayout.setVisibility(View.GONE);
-
+                    phoneNumberLayout.setVisibility(View.VISIBLE);
+                    otpLayout.setVisibility(View.GONE);
                 }
                 if (tabLayout.getSelectedTabPosition() == 0) {
                     requestType="signUp";
                     userName.setVisibility(View.VISIBLE);
                     jobTitle.setVisibility(View.VISIBLE);
                     typOfPageLayout.setVisibility(View.VISIBLE);
+                    phoneNumberLayout.setVisibility(View.VISIBLE);
+                    otpLayout.setVisibility(View.GONE);
                 }
 
             }
@@ -132,7 +145,8 @@ public class LoginDialog extends Dialog {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
+                phoneNumberLayout.setVisibility(View.VISIBLE);
+                otpLayout.setVisibility(View.GONE);
             }
         });
 
@@ -140,10 +154,9 @@ public class LoginDialog extends Dialog {
             @Override
             public void onClick(View v) {
 
-
+                sendPhoneNumberPr.setVisibility(View.VISIBLE);
+                sendPhoneNumberBtn.setVisibility(View.GONE);
                 if(requestType.equals("signUp")){
-
-
 
                     UserModel userModel=new UserModel(
                             Objects.requireNonNull(phoneNumber.getText()).toString(),
@@ -155,7 +168,7 @@ public class LoginDialog extends Dialog {
                 }else if(requestType.equals("signIn")){
 
                     SignInRequestModel signInRequestModel=new
-                            SignInRequestModel(Objects.requireNonNull(phoneNumber.getText()).toString());
+                            SignInRequestModel(Objects.requireNonNull(phoneNumber.getText()).toString(), "");
                     signIn(signInRequestModel);
 
                 }
@@ -165,8 +178,12 @@ public class LoginDialog extends Dialog {
         });
 
         sendOtpBtn.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
+
+                sendOtpPr.setVisibility(View.VISIBLE);
+                sendOtpBtn.setVisibility(View.GONE);
                     AdUserDtoModel adUserDtoModel=new AdUserDtoModel(
                             Objects.requireNonNull(userName.getText()).toString(),
                             Objects.requireNonNull(phoneNumber.getText()).toString(),
@@ -174,7 +191,19 @@ public class LoginDialog extends Dialog {
                             Objects.requireNonNull(jobTitle.getText()).toString(),
                             Objects.requireNonNull(otp.getText()).toString()
                     );
+                    if(requestType.equals("signUp"))
                     signUpPasswordCheck(adUserDtoModel);
+
+                    else if (requestType.equals("signIn")){
+
+                        SignInRequestModel signInRequestModel=new SignInRequestModel(
+                                Objects.requireNonNull(phoneNumber.getText()).toString(),
+                                Objects.requireNonNull(otp.getText()).toString()
+                        );
+
+                        sigInPasswordCheck(signInRequestModel);
+
+                    };
                 }
 
         });
@@ -185,7 +214,8 @@ public class LoginDialog extends Dialog {
        retrofit.signUp(userModel,new Callback<ResponseBody>() {
            @Override
            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-
+               sendPhoneNumberPr.setVisibility(View.GONE);
+               sendPhoneNumberBtn.setVisibility(View.VISIBLE);
                if (response.isSuccessful()) {
                    try {
                        // Convert response body to string
@@ -224,7 +254,8 @@ public class LoginDialog extends Dialog {
            }
            @Override
            public void onFailure(@NonNull Call<ResponseBody> call, Throwable t) {
-
+               sendPhoneNumberPr.setVisibility(View.GONE);
+               sendPhoneNumberBtn.setVisibility(View.VISIBLE);
                Toast.makeText(context,"خطایی رخ داده است",Toast.LENGTH_SHORT).show();
 
            }
@@ -236,6 +267,8 @@ public class LoginDialog extends Dialog {
         retrofit.signIn(signInRequestModel, new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                sendPhoneNumberPr.setVisibility(View.GONE);
+                sendPhoneNumberBtn.setVisibility(View.VISIBLE);
                 if (response.isSuccessful()) {
                     try {
                         // Convert response body to string
@@ -274,6 +307,8 @@ public class LoginDialog extends Dialog {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                sendPhoneNumberPr.setVisibility(View.GONE);
+                sendPhoneNumberBtn.setVisibility(View.VISIBLE);
                 Toast.makeText(context,"خطایی رخ داده است",Toast.LENGTH_SHORT).show();
 
             }
@@ -281,16 +316,27 @@ public class LoginDialog extends Dialog {
     }
 
     private void signUpPasswordCheck(AdUserDtoModel adUserDtoModel){
-        retrofit.signUpPasswordCheck(adUserDtoModel, new Callback<UserLoginResponse>() {
+        retrofit.signUpPasswordCheck(adUserDtoModel, new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<UserLoginResponse> call, Response<UserLoginResponse> response) {
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                sendOtpPr.setVisibility(View.GONE);
+                sendOtpBtn.setVisibility(View.VISIBLE);
                 if (response.isSuccessful()) {
+                    try {
+                        // Convert response body to string
+                        assert response.body() != null;
+                        String responseBody = response.body().string();
+                        myEdit.putString("token", responseBody);
+                        myEdit.commit();
+                        dismiss();
+                        Toast.makeText(context,"ثبت نام موفق",Toast.LENGTH_SHORT).show();
 
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        Toast.makeText(context,"خطایی رخ داده است",Toast.LENGTH_SHORT).show();
+                    }
                     // Convert response body to string
-                    assert response.body() != null;
-                    String responseBody = response.body().getToken();
-                    myEdit.putString("token", responseBody);
-                    myEdit.commit();
+
 
                 } else {
 
@@ -312,7 +358,9 @@ public class LoginDialog extends Dialog {
             }
 
             @Override
-            public void onFailure(Call<UserLoginResponse> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                sendOtpPr.setVisibility(View.GONE);
+                sendOtpBtn.setVisibility(View.VISIBLE);
                 Toast.makeText(context,"خطایی رخ داده است",Toast.LENGTH_SHORT).show();
 
             }
@@ -322,8 +370,60 @@ public class LoginDialog extends Dialog {
 
     }
 
+    private void sigInPasswordCheck(SignInRequestModel signInRequestModel){
+        retrofit.signInPasswordCheck(signInRequestModel, new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                sendOtpPr.setVisibility(View.GONE);
+                sendOtpBtn.setVisibility(View.VISIBLE);
+                if (response.isSuccessful()) {
 
-   /* private String signIn(){
+                    // Convert response body to string
+                    try {
+                        // Convert response body to string
+                        assert response.body() != null;
+                        String responseBody = response.body().string();
+                        myEdit.putString("token", responseBody);
+                        myEdit.commit();
+                        dismiss();
+                        Toast.makeText(context,"ورود موفق",Toast.LENGTH_SHORT).show();
 
-    }*/
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        Toast.makeText(context,"خطایی رخ داده است",Toast.LENGTH_SHORT).show();
+                    }
+
+                } else {
+
+                    String errMsg = null;
+                    ResponseBody errorBody = response.errorBody();
+                    if (errorBody != null) {
+                        try {
+                            String errorBodyString = errorBody.string();
+                            JSONObject errorJson = new JSONObject(errorBodyString);
+                            errMsg = errorJson.getString("error");
+                            Toast.makeText(context,errMsg,Toast.LENGTH_SHORT).show();
+                        } catch (IOException | JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(context,"error",Toast.LENGTH_SHORT).show();
+                            Log.e("TESTT",e.toString());
+                        }
+                    }
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                sendOtpPr.setVisibility(View.GONE);
+                sendOtpBtn.setVisibility(View.VISIBLE);
+                Toast.makeText(context,"خطایی رخ داده است",Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+
+    }
+
+
 }
