@@ -25,15 +25,25 @@
     <string name="msg_subscribed">Subscribed to weather topic</string>
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
     <string name="fcm_message">FCM Message</string>
+
     <string name="edit">ویرایش</string>
     <string name="share">اشتراک گذاری</string>
     <string name="save">ذخیره</string>
+
     <string name="userName">نام کاربری</string>
     <string name="phoneNumber">شماره تلفن</string>
     <string name="send">ارسال</string>
     <string name="otp">رمز دریافتی را وارد کنید</string>
     <string name="typeOfPage">نوع پیج(کاری/شخصی) </string>
     <string name="jobTitle">عنوان کاری</string>
+
+    <string name="buySubscribe">خرید اشتراک</string>
+    <string name="threeMonth">اشتراک سه ماهه</string>
+    <string name="sixMonth">اشتراک شش ماهه</string>
+    <string name="oneYear">اشتراک یک ساله</string>
+
+
+
 
     <string-array name="photo_editor_emoji">
 

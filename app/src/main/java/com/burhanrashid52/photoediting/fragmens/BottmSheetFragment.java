@@ -43,6 +43,8 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Registry;
+import com.burhanrashid52.photoediting.Dialogs.BuySubscribeDialog;
+import com.burhanrashid52.photoediting.Dialogs.DialogListener;
 import com.burhanrashid52.photoediting.Dialogs.LoginDialog;
 import com.burhanrashid52.photoediting.DownloadPackageHelper;
 import com.burhanrashid52.photoediting.FileUtils;
@@ -75,8 +77,10 @@ import kotlin.jvm.functions.Function1;
 import kotlin.jvm.internal.DefaultConstructorMarker;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
-public class BottmSheetFragment extends BottomSheetDialogFragment {
+public class BottmSheetFragment extends BottomSheetDialogFragment implements DialogListener {
     String name, designer, downloadCount, occasion, samplesUrl, headerUrl, packageUrl, type;
+
+    String PURCHASE_TOKEN="";
     int price, id;
     ImageView bookmark;
     TextView title, designerName, downloadCountTextview, priceTextview;
@@ -89,16 +93,24 @@ public class BottmSheetFragment extends BottomSheetDialogFragment {
     Bundle bundle;
     public static ProgressBar progressBar;
     InAppBill bazar;
+    DownloadPackageHelper downloadPackageHelper;
+    Context context;
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        this.context=context;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        bazar=new InAppBill(getContext(),getActivity());
-        taskDao = AppDataBase.getAppDataBase(getContext()).getTaskDao();
-        sharedPreferences = Objects.requireNonNull(getContext()).getSharedPreferences("MySharedPref",MODE_PRIVATE);
-        token=sharedPreferences.getString("token","empty");
+        bazar=new InAppBill(context, Objects.requireNonNull(getActivity()));
+        taskDao = AppDataBase.getAppDataBase(context).getTaskDao();
+        sharedPreferences = Objects.requireNonNull(context).getSharedPreferences("MySharedPref",MODE_PRIVATE);
         setStyle(STYLE_NORMAL, R.style.AppBottomSheetDialogTheme);
      bundle=  getBundle();
+     downloadPackageHelper = new DownloadPackageHelper(context, bundle);
+
 
     }
 
@@ -112,8 +124,10 @@ public class BottmSheetFragment extends BottomSheetDialogFragment {
         title.setText(name);
         designerName.setText("طراح: "+designer);
         downloadCountTextview.setText("تا کنون " + downloadCount + " نفر این پکیج را دانلود کرده اند.");
+        PURCHASE_TOKEN=sharedPreferences.getString("PURCHASE_TOKEN","");
+        token=sharedPreferences.getString("token","empty");
 
-        String unzipPath = FileUtils.getDataDir(getContext(), "Best_Design").getAbsolutePath();
+        String unzipPath = FileUtils.getDataDir(context, "Best_Design").getAbsolutePath();
         int endIndex = packageUrl.length();
         String substring = packageUrl.substring(29, endIndex - 4);
         File extracted = new File(unzipPath + "/" + substring);
@@ -123,26 +137,83 @@ public class BottmSheetFragment extends BottomSheetDialogFragment {
 
             if (price == 0) {
                 priceTextview.setText("رایگان");
-                downLoad.setOnClickListener(new View.OnClickListener() {
-                    @RequiresApi(api = Build.VERSION_CODES.O)
+            } else {
+                priceTextview.setText("اشتراکی");
+                if (PURCHASE_TOKEN.equals("")){
+                    downLoad.setText("خرید اشتراک");
+
+                }else{
+                    downLoad.setText("دانلود پکیج");
+
+                }
+            /*   downLoad.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (token.equals("empty")){
                             LoginDialog loginDialog=new LoginDialog(getActivity());
                             loginDialog.show();
-                        }else{
+
+                        }else {
                             if (extracted.exists()) {
-                                Toast.makeText(getContext(), "این فایل قبلا دانلود شده است.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "این فایل قبلا دانلود شده است.", Toast.LENGTH_SHORT).show();
 
 
                             } else {
-                                if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                                if(PURCHASE_TOKEN.equals("")){
+                                    BuySubscribeDialog buySubscribeDialog=new BuySubscribeDialog(context,getActivity());
+                                    buySubscribeDialog.show();
 
-                                    requestStoragePermission();
 
-                                } else {
-                                    DownloadPackageHelper downloadPackageHelper = new DownloadPackageHelper(getContext(), bundle);
+                                }else{
+                                    DownloadPackageHelper downloadPackageHelper = new DownloadPackageHelper(context, bundle);
                                     downloadPackageHelper.downloading();
+                                }
+                                //bazar.connectToBazar(bundle, price, name, String.valueOf(id));
+                            }
+                        }
+                    }
+                });*/
+
+            }
+                downLoad.setOnClickListener(new View.OnClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
+                    @Override
+                    public void onClick(View v) {
+
+                        if (token.equals("empty")){
+                            LoginDialog loginDialog=new LoginDialog(getActivity());
+                            loginDialog.show();
+                            onDestroyView();
+                        }else{
+                            if (extracted.exists()) {
+                                Toast.makeText(context, "این فایل قبلا دانلود شده است.", Toast.LENGTH_SHORT).show();
+
+
+                            } else {
+
+                                if(price==0) {
+                                    if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+                                        requestStoragePermission();
+
+                                    } else {
+                                        downloadPackageHelper.downloading();
+                                    }
+                                }else{
+                                    if(PURCHASE_TOKEN.equals("")){
+                                        BuySubscribeDialog buySubscribeDialog=new BuySubscribeDialog(context,getActivity());
+                                        buySubscribeDialog.show();
+
+
+                                    }else{
+                                        if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+                                            requestStoragePermission();
+
+                                        } else {
+                                            downloadPackageHelper.downloading();
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -152,28 +223,7 @@ public class BottmSheetFragment extends BottomSheetDialogFragment {
                     }
                 });
 
-            } else {
-                priceTextview.setText("اشتراکی");
-                downLoad.setText("خرید پکیج");
-                downLoad.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (token.equals("empty")){
-                            LoginDialog loginDialog=new LoginDialog(getActivity());
-                            loginDialog.show();
-                        }else {
-                            if (extracted.exists()) {
-                                Toast.makeText(getContext(), "این فایل قبلا دانلود شده است.", Toast.LENGTH_SHORT).show();
 
-
-                            } else {
-                                bazar.connectToBazar(bundle, price, name, String.valueOf(id));
-                            }
-                        }
-                    }
-                });
-
-            }
 
 
         return view;
@@ -256,10 +306,10 @@ public class BottmSheetFragment extends BottomSheetDialogFragment {
 
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                DownloadPackageHelper downloadPackageHelper = new DownloadPackageHelper(getContext(), bundle);
+                DownloadPackageHelper downloadPackageHelper = new DownloadPackageHelper(context, bundle);
                 downloadPackageHelper.downloading();
             } else {
-                new AlertDialog.Builder(getContext())
+                new AlertDialog.Builder(context)
                         .setTitle("درخواست مجوز")
                         .setMessage("شما مجوز دسترسی به حافظه را رد کرده اید .آیا تمایل دارید به صورت دستی مجوز را فعال کنید؟ ")
                         .setPositiveButton("موافقم", new DialogInterface.OnClickListener() {
@@ -287,7 +337,7 @@ public class BottmSheetFragment extends BottomSheetDialogFragment {
 
     public void openAppSettings() {
 
-        Uri packageUri = Uri.fromParts("package", getContext().getPackageName(), null);
+        Uri packageUri = Uri.fromParts("package", context.getPackageName(), null);
 
         Intent applicationDetailsSettingsIntent = new Intent();
 
@@ -295,7 +345,7 @@ public class BottmSheetFragment extends BottomSheetDialogFragment {
         applicationDetailsSettingsIntent.setData(packageUri);
         applicationDetailsSettingsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-        getContext().startActivity(applicationDetailsSettingsIntent);
+        context.startActivity(applicationDetailsSettingsIntent);
 
     }
 
@@ -327,4 +377,15 @@ return bundle;
     }
 
 
+    @Override
+    public void onDialogResult() {
+        PURCHASE_TOKEN=sharedPreferences.getString("PURCHASE_TOKEN","");
+        if (PURCHASE_TOKEN.equals("")){
+            downLoad.setText("خرید اشتراک");
+
+        }else{
+            downLoad.setText("دانلود پکیج");
+
+        }
+    }
 }

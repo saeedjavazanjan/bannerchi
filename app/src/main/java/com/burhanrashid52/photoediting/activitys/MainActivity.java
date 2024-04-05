@@ -15,6 +15,7 @@ import com.burhanrashid52.photoediting.R;
 import com.burhanrashid52.photoediting.fragmens.AboutUs;
 import com.burhanrashid52.photoediting.fragmens.DownLoadsFragment;
 import com.burhanrashid52.photoediting.fragmens.HomeFragment;
+import com.burhanrashid52.photoediting.fragmens.ProfileFragment;
 import com.burhanrashid52.photoediting.fragmens.SavedItemsFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
                         bottomNavigationView = findViewById(R.id.bottom_navigation);
                         bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
+                         bottomNavigationView.getMenu().findItem(R.id.home).setChecked(true);
 
                         frameLayout = findViewById(R.id.frameLayoutMain);
                         getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutMain, new HomeFragment()).commit();
@@ -93,6 +95,9 @@ public class MainActivity extends AppCompatActivity {
                                     break;
                                 case R.id.account:
                                     selectedFragment = new AboutUs();
+                                    break;
+                                case R.id.profile:
+                                    selectedFragment = new ProfileFragment();
                                     break;
                             }
                             // It will help to replace the
