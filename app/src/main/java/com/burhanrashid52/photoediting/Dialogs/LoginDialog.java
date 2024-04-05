@@ -9,6 +9,8 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -26,6 +28,7 @@ import com.burhanrashid52.photoediting.R;
 import com.burhanrashid52.photoediting.api.RetrofitApiImpl;
 import com.burhanrashid52.photoediting.models.AdUserDtoModel;
 import com.burhanrashid52.photoediting.models.SignInRequestModel;
+import com.burhanrashid52.photoediting.models.UserData;
 import com.burhanrashid52.photoediting.models.UserLoginResponse;
 import com.burhanrashid52.photoediting.models.UserModel;
 import com.google.android.material.button.MaterialButton;
@@ -49,7 +52,7 @@ public class LoginDialog extends Dialog {
     TabLayout tabLayout;
     TextInputEditText userName,phoneNumber,otp, jobTitle;
     AutoCompleteTextView typeOfPageTxt;
-    TextInputLayout typOfPageLayout;
+    TextInputLayout typOfPageLayout,phoneNumberInL,userNameInL,otpInL;
     MaterialButton sendOtpBtn,sendPhoneNumberBtn;
     ConstraintLayout otpLayout,phoneNumberLayout;
     ProgressBar sendOtpPr,sendPhoneNumberPr;
@@ -91,12 +94,15 @@ public class LoginDialog extends Dialog {
         phoneNumberLayout = findViewById(R.id.signUpLayout);
 
         userName = findViewById(R.id.userNameEdt);
+        userNameInL=findViewById(R.id.userName);
 
         phoneNumber = findViewById(R.id.phoneNumberEdt);
+        phoneNumberInL=findViewById(R.id.phoneNumber);
 
         jobTitle = findViewById(R.id.jobTitleEdt);
 
         otp = findViewById(R.id.otpEdt);
+        otpInL = findViewById(R.id.otp);
 
         sendOtpBtn = findViewById(R.id.sendOtpBtn);
 
@@ -115,13 +121,70 @@ public class LoginDialog extends Dialog {
         tabLayout.addTab(tabLayout.newTab().setText("ثبت نام"));
         tabLayout.addTab(tabLayout.newTab().setText("ورود"));
 
+
+        otp.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if (s.length()>0){
+                    otpInL.setErrorEnabled(false);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        userName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length()>0){
+                    userNameInL.setErrorEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        phoneNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length()>0){
+                    phoneNumberInL.setErrorEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener(){
 
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if (tabLayout.getSelectedTabPosition() == 1) {
                     requestType="signIn";
-                    userName.setVisibility(View.GONE);
+                    userNameInL.setVisibility(View.GONE);
                     jobTitle.setVisibility(View.GONE);
                     typOfPageLayout.setVisibility(View.GONE);
                     phoneNumberLayout.setVisibility(View.VISIBLE);
@@ -129,7 +192,7 @@ public class LoginDialog extends Dialog {
                 }
                 if (tabLayout.getSelectedTabPosition() == 0) {
                     requestType="signUp";
-                    userName.setVisibility(View.VISIBLE);
+                    userNameInL.setVisibility(View.VISIBLE);
                     jobTitle.setVisibility(View.VISIBLE);
                     typOfPageLayout.setVisibility(View.VISIBLE);
                     phoneNumberLayout.setVisibility(View.VISIBLE);
@@ -153,27 +216,41 @@ public class LoginDialog extends Dialog {
         sendPhoneNumberBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (phoneNumber.getText().length() == 0 ||(userName.getText().length() == 0 &&requestType.equals("signUp"))) {
+                    if(phoneNumber.getText().length() == 0 ){
+                        phoneNumberInL.setErrorEnabled(true);
+                        phoneNumberInL.requestFocus();
+                        phoneNumberInL.setError("لطفا شماره تلفن را وارد کنید");
+                    }
 
-                sendPhoneNumberPr.setVisibility(View.VISIBLE);
-                sendPhoneNumberBtn.setVisibility(View.GONE);
-                if(requestType.equals("signUp")){
+                      if (userName.getText().length() == 0 && requestType.equals("signUp")) {
+                        userNameInL.setErrorEnabled(true);
+                        userNameInL.requestFocus();
+                        userNameInL.setError("لطفا نام کاربری را وارد کنید");
+                    }
+                } else {
+                    sendPhoneNumberPr.setVisibility(View.VISIBLE);
+                    sendPhoneNumberBtn.setVisibility(View.GONE);
+                    if (requestType.equals("signUp")) {
 
-                    UserModel userModel=new UserModel(
-                            Objects.requireNonNull(phoneNumber.getText()).toString(),
-                            typeOfPageTxt.getText().toString(),
-                            Objects.requireNonNull(jobTitle.getText()).toString(),
-                            Objects.requireNonNull(userName.getText()).toString());
-                    signUp(userModel);
 
-                }else if(requestType.equals("signIn")){
+                        UserModel userModel = new UserModel(
+                                Objects.requireNonNull(phoneNumber.getText()).toString(),
+                                typeOfPageTxt.getText().toString(),
+                                Objects.requireNonNull(jobTitle.getText()).toString(),
+                                Objects.requireNonNull(userName.getText()).toString());
+                        signUp(userModel);
 
-                    SignInRequestModel signInRequestModel=new
-                            SignInRequestModel(Objects.requireNonNull(phoneNumber.getText()).toString(), "");
-                    signIn(signInRequestModel);
+                    } else if (requestType.equals("signIn")) {
+
+                        SignInRequestModel signInRequestModel = new
+                                SignInRequestModel(Objects.requireNonNull(phoneNumber.getText()).toString(), "");
+                        signIn(signInRequestModel);
+
+                    }
+
 
                 }
-
-
             }
         });
 
@@ -181,29 +258,35 @@ public class LoginDialog extends Dialog {
 
             @Override
             public void onClick(View v) {
-
-                sendOtpPr.setVisibility(View.VISIBLE);
-                sendOtpBtn.setVisibility(View.GONE);
-                    AdUserDtoModel adUserDtoModel=new AdUserDtoModel(
+                if (otp.getText().length() == 0) {
+                    otpInL.setErrorEnabled(true);
+                    otpInL.requestFocus();
+                    otpInL.setError("لطفا رمز را وارد کنید");
+                }else {
+                    sendOtpPr.setVisibility(View.VISIBLE);
+                    sendOtpBtn.setVisibility(View.GONE);
+                    AdUserDtoModel adUserDtoModel = new AdUserDtoModel(
                             Objects.requireNonNull(userName.getText()).toString(),
                             Objects.requireNonNull(phoneNumber.getText()).toString(),
                             typeOfPageTxt.getText().toString(),
                             Objects.requireNonNull(jobTitle.getText()).toString(),
                             Objects.requireNonNull(otp.getText()).toString()
                     );
-                    if(requestType.equals("signUp"))
-                    signUpPasswordCheck(adUserDtoModel);
+                    if (requestType.equals("signUp"))
+                        signUpPasswordCheck(adUserDtoModel);
 
-                    else if (requestType.equals("signIn")){
+                    else if (requestType.equals("signIn")) {
 
-                        SignInRequestModel signInRequestModel=new SignInRequestModel(
+                        SignInRequestModel signInRequestModel = new SignInRequestModel(
                                 Objects.requireNonNull(phoneNumber.getText()).toString(),
                                 Objects.requireNonNull(otp.getText()).toString()
                         );
 
                         sigInPasswordCheck(signInRequestModel);
 
-                    };
+                    }
+                    ;
+                }
                 }
 
         });
@@ -323,23 +406,27 @@ public class LoginDialog extends Dialog {
                 sendOtpBtn.setVisibility(View.VISIBLE);
                 if (response.isSuccessful()) {
                     try {
-                        // Convert response body to string
-                        assert response.body() != null;
-                        String responseBody = response.body().string();
-                        myEdit.putString("token", responseBody);
+                    assert response.body() != null;
+                    String responseBody = response.body().string();
+                    JSONObject json = null;
+
+                        json = new JSONObject(responseBody);
+
+                    String token=json.getString("tok");
+                    myEdit.putString("token", token);
+                        JSONObject user=json.getJSONObject("userData");
+                        myEdit.putString("token", token);
+                        myEdit.putString("userName",user.getString("name"));
+                        myEdit.putString("phoneNumber",user.getString("phoneNumber"));
+                        myEdit.putString("typeOfPage",user.getString("typeOfPage"));
+                        myEdit.putString("jobTitle",user.getString("jobTitle"));
                         myEdit.commit();
                         dismiss();
-                        Toast.makeText(context,"ثبت نام موفق",Toast.LENGTH_SHORT).show();
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        Toast.makeText(context,"خطایی رخ داده است",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,"ثبت نام موفق",Toast.LENGTH_SHORT).show();
+                    } catch (JSONException |IOException e) {
+                        Toast.makeText(context,"error",Toast.LENGTH_SHORT).show();
                     }
-                    // Convert response body to string
-
-
                 } else {
-
                     String errMsg = null;
                     ResponseBody errorBody = response.errorBody();
                     if (errorBody != null) {
@@ -383,12 +470,20 @@ public class LoginDialog extends Dialog {
                         // Convert response body to string
                         assert response.body() != null;
                         String responseBody = response.body().string();
-                        myEdit.putString("token", responseBody);
+                        JSONObject json = new JSONObject(responseBody);
+
+                        String token=json.getString("tok");
+                        JSONObject user=json.getJSONObject("userData");
+                        myEdit.putString("token", token);
+                        myEdit.putString("userName",user.getString("name"));
+                        myEdit.putString("phoneNumber",user.getString("phoneNumber"));
+                        myEdit.putString("typeOfPage",user.getString("typeOfPage"));
+                        myEdit.putString("jobTitle",user.getString("jobTitle"));
                         myEdit.commit();
                         dismiss();
                         Toast.makeText(context,"ورود موفق",Toast.LENGTH_SHORT).show();
 
-                    } catch (IOException e) {
+                    } catch (IOException |JSONException e) {
                         e.printStackTrace();
                         Toast.makeText(context,"خطایی رخ داده است",Toast.LENGTH_SHORT).show();
                     }

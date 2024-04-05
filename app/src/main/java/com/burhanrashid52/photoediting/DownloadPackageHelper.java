@@ -128,7 +128,7 @@ public class DownloadPackageHelper {
                                 BottmSheetFragment.downLoad.setVisibility(View.VISIBLE);
                                 BottmSheetFragment.progressBar.setVisibility(View.GONE);
                                 if(price!=0){
-                                    InAppBill.consumeProduct();
+                                   // InAppBill.consumeProduct();
 
                                 }
                             }

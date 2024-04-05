@@ -73,9 +73,9 @@
                     app:tabMaxWidth="0dp"
                     app:tabGravity="fill"
                     app:tabMode="fixed"
-                    app:tabTextColor="@color/black"
-                    app:tabIndicatorColor="@color/black"
-                    app:tabSelectedTextColor="@color/black"
+                    app:tabTextColor="@color/darkGray"
+                    app:tabIndicatorColor="@color/colorAccent"
+                    app:tabSelectedTextColor="@color/colorAccent"
                     app:tabTextAppearance="@style/TextAppearance.AppCompat.Small"/>
 
 

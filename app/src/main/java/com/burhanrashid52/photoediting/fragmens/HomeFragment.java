@@ -1,9 +1,11 @@
 package com.burhanrashid52.photoediting.fragmens;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -53,10 +55,18 @@ public class HomeFragment extends Fragment {
     int pageNumber=1;
     String pageLoadType="poster";
     String searchString="";
+    Context currentContext;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        currentContext=context;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
@@ -68,7 +78,7 @@ public class HomeFragment extends Fragment {
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         mainRecycler.setLayoutManager(layoutManager);
 
-        apiService =  ApiService.getInstance(getContext());
+        apiService =  ApiService.getInstance(currentContext);
         packagesAdapter = new PackagesAdapter();
 
         titlesManager(view,"occasion");
@@ -79,7 +89,7 @@ public class HomeFragment extends Fragment {
         packagesAdapter.setOnClickItem(new PackagesAdapter.OnClickItem() {
             @Override
             public void onClick(ResponseModel responseModel) {
-                Intent intent = new Intent(getContext(), PreviewActivity.class);
+                Intent intent = new Intent(currentContext, PreviewActivity.class);
                 intent.putExtra("name", responseModel.getName());
                 intent.putExtra("packageUrl", responseModel.getPackageURL());
                 intent.putExtra("designer", responseModel.getDesigner());
@@ -218,11 +228,11 @@ public class HomeFragment extends Fragment {
     }
 
     public void titlesManager(View view,String type) {
-        sortTitlesAdapter = new SortTitlesAdapter(titles, getContext());
+        sortTitlesAdapter = new SortTitlesAdapter(titles, currentContext);
         sortTitles = view.findViewById(R.id.sortTitles);
         // sortTitles.setVisibility(View.GONE);
 
-        sortTitles.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, true));
+        sortTitles.setLayoutManager(new LinearLayoutManager(currentContext, RecyclerView.HORIZONTAL, true));
         sortTitles.setAdapter(sortTitlesAdapter);
 
         if (type.equals("occasion")){
@@ -238,7 +248,7 @@ public class HomeFragment extends Fragment {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(getContext(), "مشکلی رخ داده است", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(currentContext, "مشکلی رخ داده است", Toast.LENGTH_SHORT).show();
 
 
                 }
@@ -257,7 +267,7 @@ public class HomeFragment extends Fragment {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(getContext(), "مشکلی رخ داده است", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(currentContext, "مشکلی رخ داده است", Toast.LENGTH_SHORT).show();
 
 
                 }
@@ -383,7 +393,7 @@ public class HomeFragment extends Fragment {
 
                 } else {
                     if (packages.isEmpty()){
-                        Toast.makeText(getContext(), "موردی پیدا نشد.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(currentContext, "موردی پیدا نشد.", Toast.LENGTH_SHORT).show();
 
                     }
                 }
@@ -393,7 +403,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 // Snackbar.make(linearLayout,"خطا در ارتباط...",Snackbar.LENGTH_SHORT).show();
-                Toast.makeText(getContext(), "خطا در ارتباط...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(currentContext, "خطا در ارتباط...", Toast.LENGTH_SHORT).show();
                 progress.setVisibility(View.GONE);
             }
         });
