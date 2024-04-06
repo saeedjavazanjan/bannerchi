@@ -93,8 +93,8 @@ Context currentContext;
             }
         });
 
-        name=sharedPreferences.getString("userName","");
-        phone=sharedPreferences.getString("phoneNumber","");
+        name=sharedPreferences.getString("userName",currentContext.getString(R.string.gust));
+        phone=sharedPreferences.getString("phoneNumber",currentContext.getString(R.string.empty));
         page=sharedPreferences.getString("typeOfPage","");
         job=sharedPreferences.getString("jobTitle","");
 
@@ -111,7 +111,7 @@ Context currentContext;
     @Override
     public void onDataFilled(List<PurchaseInfo> dataList) {
 
-        if(!dataList.isEmpty()){
+        if(!dataList.isEmpty() &&!phone.equals(currentContext.getString(R.string.empty))){
             SubscribeCv.setVisibility(View.VISIBLE);
             Long leftTime=calculateExpireTime(dataList.get(0));
 
@@ -144,7 +144,7 @@ Context currentContext;
 
 
         }else if(purchaseInfo.getProductId().equals("12monthsubscribe")){
-            leftTime=((purchaseInfo.getPurchaseTime()+(2592000000L*12))-currentTime)/86400000;
+            leftTime=((purchaseInfo.getPurchaseTime()+((2592000000L*12)+518400000))-currentTime)/86400000;
 
         }else{
             leftTime=((purchaseInfo.getPurchaseTime()+(300000))-currentTime);

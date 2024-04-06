@@ -294,6 +294,8 @@ public class LoginDialog extends Dialog {
 
 
     private void signUp(UserModel userModel){
+
+
        retrofit.signUp(userModel,new Callback<ResponseBody>() {
            @Override
            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {

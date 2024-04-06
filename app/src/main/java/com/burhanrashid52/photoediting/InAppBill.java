@@ -247,7 +247,7 @@ public static String PURCHASE_TOKEN;
                     @Override
                     public Unit invoke(Throwable throwable) {
 
-                        Toast.makeText(context,"faild",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context,"اپلیکیشن بازار نصب نیست",Toast.LENGTH_SHORT).show();
                         return null;
                     }
                 });

@@ -8,6 +8,7 @@ import com.burhanrashid52.photoediting.models.UserModel;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface RetrofitApi {
@@ -25,4 +26,7 @@ public interface RetrofitApi {
     @POST("users/signInPasswordCheck")
         //on below line we are creating a method to post our data.
     Call<ResponseBody> signInPasswordCheck(@Body SignInRequestModel signInRequestModel);
+
+    @GET("version/")
+    Call<String> getVersion();
 }

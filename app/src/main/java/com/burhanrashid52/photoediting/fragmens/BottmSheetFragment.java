@@ -200,8 +200,10 @@ public class BottmSheetFragment extends BottomSheetDialogFragment implements Dia
                                         downloadPackageHelper.downloading();
                                     }
                                 }else{
-                                    if(PURCHASE_TOKEN.equals("")){
+                                   if(PURCHASE_TOKEN.equals("")){
                                         BuySubscribeDialog buySubscribeDialog=new BuySubscribeDialog(context,getActivity());
+                                        buySubscribeDialog.setDialogListener(BottmSheetFragment.this); // 'this' refers to the Fragment which implements the listener
+                                       onDestroyView();
                                         buySubscribeDialog.show();
 
 
@@ -380,12 +382,9 @@ return bundle;
     @Override
     public void onDialogResult() {
         PURCHASE_TOKEN=sharedPreferences.getString("PURCHASE_TOKEN","");
-        if (PURCHASE_TOKEN.equals("")){
-            downLoad.setText("خرید اشتراک");
 
-        }else{
             downLoad.setText("دانلود پکیج");
 
-        }
+
     }
 }

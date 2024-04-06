@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="?actionBarSize"
         android:layout_marginEnd="20dp"
-        android:text="@string/userName"
+        android:text="@string/gust"
         android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
-        android:text="@string/phoneNumber"
+        android:text="@string/empty"
         android:textColor="@color/darkGray"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -65,7 +65,6 @@
         app:layout_constraintTop_toBottomOf="@id/txtJobTitle" />
 
     <androidx.cardview.widget.CardView
-        android:padding="20dp"
         android:id="@+id/subscribeCv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -77,6 +76,7 @@
         app:strokeWidth="2dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:padding="20dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 

@@ -72,5 +72,9 @@ public void signInPasswordCheck(SignInRequestModel signInRequestModel , Callback
     }
 
 
+    public void getVersion(Callback<String>callback){
+        Call<String> call= retrofitAPI.getVersion();
+        call.enqueue(callback);
+    }
 
 }
