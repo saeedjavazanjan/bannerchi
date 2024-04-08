@@ -12,6 +12,7 @@ import android.content.res.AssetManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -30,6 +31,7 @@ import com.burhanrashid52.photoediting.fragmens.BottmSheetFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -93,6 +95,8 @@ public class PreviewActivity extends AppCompatActivity {
         samples= sampleURLs.split(",");
         itemsURL=Arrays.asList(samples);
         samplesAdapter=new SamplesAdapter(itemsURL);
+
+
 
         if(type.equals("0")){
             preView0.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {

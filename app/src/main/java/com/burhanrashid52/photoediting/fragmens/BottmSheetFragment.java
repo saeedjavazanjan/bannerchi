@@ -4,6 +4,7 @@ import static android.content.Context.MODE_PRIVATE;
 import static android.content.Context.NOTIFICATION_SERVICE;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -115,6 +116,7 @@ public class BottmSheetFragment extends BottomSheetDialogFragment implements Dia
     }
 
 
+    @SuppressLint("SetTextI18n")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -197,6 +199,7 @@ public class BottmSheetFragment extends BottomSheetDialogFragment implements Dia
                                         requestStoragePermission();
 
                                     } else {
+
                                         downloadPackageHelper.downloading();
                                     }
                                 }else{
