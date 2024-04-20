@@ -1,6 +1,7 @@
 package com.burhanrashid52.photoediting.fragmens;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -28,11 +29,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DownLoadsFragment extends Fragment {
+    Context context;
     RecyclerView downloadedRecycler;
     List<LocalModel> downloaded=new ArrayList<>();
     TaskDao taskDao;
     DownloadedPackagesAdapter adapter2;
     View emptyLayout;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        this.context=context;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,7 +51,7 @@ public class DownLoadsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.downloads_fragment,container,false);
-        taskDao= AppDataBase.getAppDataBase(view.getContext()).getTaskDao();
+        taskDao= AppDataBase.getAppDataBase(context).getTaskDao();
         downloadedRecycler=view.findViewById(R.id.downloadedRecycler);
         downloadedRecycler.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
 
@@ -58,7 +66,7 @@ public class DownLoadsFragment extends Fragment {
         adapter2.setOnClickItem(new DownloadedPackagesAdapter.OnClickItem() {
             @Override
             public void onClick(LocalModel localModel) {
-                Intent intent=new Intent(getContext(), DownloadedPreview.class);
+                Intent intent=new Intent(context, DownloadedPreview.class);
 
                     intent.putExtra("model", (Serializable) localModel);
                     startActivity(intent);
@@ -68,11 +76,10 @@ public class DownLoadsFragment extends Fragment {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void delete(LocalModel localModel) {
-                //TODO alertDialog for delete file
                 taskDao.deleteItem(localModel.getId());
                 boolean deleted=deleteDirectory(new File(localModel.getPackageURI()));
                 if(deleted){
-                    Toast.makeText(getContext(), "پکیج با موفقیت حذف شد", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, context.getString(R.string.delete_package), Toast.LENGTH_SHORT).show();
                     try {
                         downloaded.remove(localModel);
 
@@ -83,7 +90,7 @@ public class DownLoadsFragment extends Fragment {
 
 
                 }else{
-                    Toast.makeText(getContext(), "مشکلی رخ داده است", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, context.getString(R.string.public_error), Toast.LENGTH_SHORT).show();
 
                 }
 

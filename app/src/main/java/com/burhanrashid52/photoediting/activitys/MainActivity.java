@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
             if (exit) {
                 System.exit(0);
             }else{
-                Toast.makeText(this, "برای خروج مجددا کلیک کنید.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.exit), Toast.LENGTH_SHORT).show();
                 exit=true;
                 Handler handler=new Handler();
                 handler.postDelayed(new Runnable() {

@@ -172,8 +172,8 @@ public class HomeFragment extends Fragment {
 
         mainRecycler.setAdapter(packagesAdapter);
 
-        tabLayout.addTab(tabLayout.newTab().setText("مناسبتی"));
-        tabLayout.addTab(tabLayout.newTab().setText("قالب پیج"));
+        tabLayout.addTab(tabLayout.newTab().setText(currentContext.getString(R.string.poster)));
+        tabLayout.addTab(tabLayout.newTab().setText(currentContext.getString(R.string.template)));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
@@ -248,7 +248,7 @@ public class HomeFragment extends Fragment {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(currentContext, "مشکلی رخ داده است", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(currentContext, currentContext.getString(R.string.public_error), Toast.LENGTH_SHORT).show();
 
 
                 }
@@ -267,7 +267,7 @@ public class HomeFragment extends Fragment {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(currentContext, "مشکلی رخ داده است", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(currentContext, currentContext.getString(R.string.public_error), Toast.LENGTH_SHORT).show();
 
 
                 }
@@ -393,7 +393,7 @@ public class HomeFragment extends Fragment {
 
                 } else {
                     if (packages.isEmpty()){
-                        Toast.makeText(currentContext, "موردی پیدا نشد.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(currentContext, currentContext.getString(R.string.not_found), Toast.LENGTH_SHORT).show();
 
                     }
                 }
@@ -402,8 +402,7 @@ public class HomeFragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                // Snackbar.make(linearLayout,"خطا در ارتباط...",Snackbar.LENGTH_SHORT).show();
-                Toast.makeText(currentContext, "خطا در ارتباط...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(currentContext, currentContext.getString(R.string.connection_error), Toast.LENGTH_SHORT).show();
                 progress.setVisibility(View.GONE);
             }
         });

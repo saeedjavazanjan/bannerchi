@@ -58,7 +58,7 @@
                     android:gravity="center_horizontal|center_vertical"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
-                    android:text="عنوان "
+                    android:text="@string/title_of_package"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
                 <LinearLayout

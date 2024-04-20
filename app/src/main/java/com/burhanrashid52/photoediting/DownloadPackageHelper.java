@@ -1,35 +1,45 @@
 package com.burhanrashid52.photoediting;
 
+import static android.content.Context.MODE_PRIVATE;
 import static android.content.Context.NOTIFICATION_SERVICE;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.burhanrashid52.photoediting.activitys.PreviewActivity;
 import com.burhanrashid52.photoediting.api.ApiService;
+import com.burhanrashid52.photoediting.api.RetrofitApiImpl;
 import com.burhanrashid52.photoediting.database.AppDataBase;
 import com.burhanrashid52.photoediting.database.LocalModel;
 import com.burhanrashid52.photoediting.database.TaskDao;
 import com.burhanrashid52.photoediting.fragmens.BottmSheetFragment;
+import com.burhanrashid52.photoediting.models.DownloadDetail;
 import com.burhanrashid52.photoediting.services.FileDownloadService;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class DownloadPackageHelper {
     Context context;
@@ -42,6 +52,7 @@ public class DownloadPackageHelper {
     public String NOTIFICATION_CHANNEL_ID="default";
     public Notification notification;
     PreviewActivity previewActivity;
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     public DownloadPackageHelper(Context context, Bundle bundle) {
         this.context = context;
@@ -121,21 +132,21 @@ public class DownloadPackageHelper {
                                     }
                                 });
 
-                                Toast.makeText(context, "دانلود انجام شد", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, context.getString(R.string.downLoad_complete), Toast.LENGTH_SHORT).show();
                                   finalNotificationManager.cancel(101);
-                                downloadCounting();
+                               // downloadCounting();
+                                sendDownloadDetailsToServer(name,id);
 
                                 BottmSheetFragment.downLoad.setVisibility(View.VISIBLE);
                                 BottmSheetFragment.progressBar.setVisibility(View.GONE);
                                 if(price!=0){
                                    // InAppBill.consumeProduct();
-
                                 }
                             }
 
                             @Override
                             public void onDownloadFailed() {
-                                Toast.makeText(context, "مشکلی رخ داده است", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, context.getString(R.string.public_error), Toast.LENGTH_SHORT).show();
                                   finalNotificationManager.cancel(101);
                                 BottmSheetFragment.downLoad.setVisibility(View.VISIBLE);
                                 BottmSheetFragment.progressBar.setVisibility(View.GONE);
@@ -214,6 +225,7 @@ public class DownloadPackageHelper {
             @Override
             public void onResponse(String response) {
 
+
             }
         }, new Response.ErrorListener() {
             @Override
@@ -222,6 +234,48 @@ public class DownloadPackageHelper {
             }
         });
 
+
+
+    }
+
+    public void sendDownloadDetailsToServer(String packName,int packId){
+        SharedPreferences  sharedPreferences = context.getSharedPreferences("MySharedPref",MODE_PRIVATE);
+        String userPurchaseToken =sharedPreferences.getString("PURCHASE_TOKEN","");
+        String userToken=sharedPreferences.getString("token","");
+        DownloadDetail downloadDetail=new DownloadDetail(
+                userPurchaseToken,
+                packName,
+                packId);
+
+        RetrofitApiImpl retrofit=RetrofitApiImpl.getInstance(context);
+        retrofit.sendDownloadDetail(userToken,downloadDetail, new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+
+                if(response.isSuccessful()){
+
+                }else {
+                    String errMsg = null;
+                    ResponseBody errorBody = response.errorBody();
+                    if (errorBody != null) {
+                        try {
+                            String errorBodyString = errorBody.string();
+                            JSONObject errorJson = new JSONObject(errorBodyString);
+                            errMsg = errorJson.getString("error");
+                            Toast.makeText(context,errMsg,Toast.LENGTH_SHORT).show();
+                        } catch (IOException | JSONException e) {
+                            Toast.makeText(context,context.getString(R.string.public_error),Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(context,context.getString(R.string.public_error),Toast.LENGTH_SHORT).show();
+
+            }
+        });
 
 
     }

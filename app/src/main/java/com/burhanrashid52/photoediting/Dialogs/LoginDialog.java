@@ -56,10 +56,12 @@ public class LoginDialog extends Dialog {
     MaterialButton sendOtpBtn,sendPhoneNumberBtn;
     ConstraintLayout otpLayout,phoneNumberLayout;
     ProgressBar sendOtpPr,sendPhoneNumberPr;
-    String[] pageType={"شخصی","کاری"};
+
 
     String requestType="signUp";
     Context context;
+
+
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor myEdit;
     RetrofitApiImpl retrofit;
@@ -67,6 +69,7 @@ public class LoginDialog extends Dialog {
         super(context);
         this.context=context;
     }
+    String[] pageType = context.getResources().getStringArray(R.array.page_types);
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -118,8 +121,8 @@ public class LoginDialog extends Dialog {
         typeOfPageTxt.setThreshold(1);
         typeOfPageTxt.setAdapter(adapter);
 
-        tabLayout.addTab(tabLayout.newTab().setText("ثبت نام"));
-        tabLayout.addTab(tabLayout.newTab().setText("ورود"));
+        tabLayout.addTab(tabLayout.newTab().setText(context.getString(R.string.sign_up)));
+        tabLayout.addTab(tabLayout.newTab().setText(context.getString(R.string.sign_in)));
 
 
         otp.addTextChangedListener(new TextWatcher() {
@@ -294,6 +297,8 @@ public class LoginDialog extends Dialog {
 
 
     private void signUp(UserModel userModel){
+
+
        retrofit.signUp(userModel,new Callback<ResponseBody>() {
            @Override
            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
@@ -309,11 +314,11 @@ public class LoginDialog extends Dialog {
 
                    } catch (IOException e) {
                        e.printStackTrace();
-                       Toast.makeText(context,"خطایی رخ داده است",Toast.LENGTH_SHORT).show();
+                       Toast.makeText(context,context.getString(R.string.public_error),Toast.LENGTH_SHORT).show();
                    }
                } else {
                    if (response.code()==429){
-                       Toast.makeText(context,"بعد از یک دقیقه تلاش کنید",Toast.LENGTH_SHORT).show();
+                       Toast.makeText(context,context.getString(R.string.rate_limit),Toast.LENGTH_SHORT).show();
 
                    }
 
@@ -339,7 +344,7 @@ public class LoginDialog extends Dialog {
            public void onFailure(@NonNull Call<ResponseBody> call, Throwable t) {
                sendPhoneNumberPr.setVisibility(View.GONE);
                sendPhoneNumberBtn.setVisibility(View.VISIBLE);
-               Toast.makeText(context,"خطایی رخ داده است",Toast.LENGTH_SHORT).show();
+               Toast.makeText(context,context.getString(R.string.public_error),Toast.LENGTH_SHORT).show();
 
            }
        });
@@ -362,11 +367,11 @@ public class LoginDialog extends Dialog {
 
                     } catch (IOException e) {
                         e.printStackTrace();
-                        Toast.makeText(context,"خطایی رخ داده است",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context,context.getString(R.string.public_error),Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     if (response.code()==429){
-                        Toast.makeText(context,"بعد از یک دقیقه تلاش کنید",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context,context.getString(R.string.rate_limit),Toast.LENGTH_SHORT).show();
 
                     }
 
@@ -392,7 +397,7 @@ public class LoginDialog extends Dialog {
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 sendPhoneNumberPr.setVisibility(View.GONE);
                 sendPhoneNumberBtn.setVisibility(View.VISIBLE);
-                Toast.makeText(context,"خطایی رخ داده است",Toast.LENGTH_SHORT).show();
+                Toast.makeText(context,context.getString(R.string.public_error),Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -422,7 +427,7 @@ public class LoginDialog extends Dialog {
                         myEdit.putString("jobTitle",user.getString("jobTitle"));
                         myEdit.commit();
                         dismiss();
-                    Toast.makeText(context,"ثبت نام موفق",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,context.getString(R.string.Registration_successful),Toast.LENGTH_SHORT).show();
                     } catch (JSONException |IOException e) {
                         Toast.makeText(context,"error",Toast.LENGTH_SHORT).show();
                     }
@@ -448,7 +453,7 @@ public class LoginDialog extends Dialog {
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 sendOtpPr.setVisibility(View.GONE);
                 sendOtpBtn.setVisibility(View.VISIBLE);
-                Toast.makeText(context,"خطایی رخ داده است",Toast.LENGTH_SHORT).show();
+                Toast.makeText(context,context.getString(R.string.public_error),Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -481,11 +486,11 @@ public class LoginDialog extends Dialog {
                         myEdit.putString("jobTitle",user.getString("jobTitle"));
                         myEdit.commit();
                         dismiss();
-                        Toast.makeText(context,"ورود موفق",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context,context.getString(R.string.Login_successful),Toast.LENGTH_SHORT).show();
 
                     } catch (IOException |JSONException e) {
                         e.printStackTrace();
-                        Toast.makeText(context,"خطایی رخ داده است",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context,context.getString(R.string.public_error),Toast.LENGTH_SHORT).show();
                     }
 
                 } else {
@@ -501,7 +506,6 @@ public class LoginDialog extends Dialog {
                         } catch (IOException | JSONException e) {
                             e.printStackTrace();
                             Toast.makeText(context,"error",Toast.LENGTH_SHORT).show();
-                            Log.e("TESTT",e.toString());
                         }
                     }
 
@@ -512,7 +516,7 @@ public class LoginDialog extends Dialog {
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 sendOtpPr.setVisibility(View.GONE);
                 sendOtpBtn.setVisibility(View.VISIBLE);
-                Toast.makeText(context,"خطایی رخ داده است",Toast.LENGTH_SHORT).show();
+                Toast.makeText(context,context.getString(R.string.public_error),Toast.LENGTH_SHORT).show();
 
             }
         });

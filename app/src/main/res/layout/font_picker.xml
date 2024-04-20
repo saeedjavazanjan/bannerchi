@@ -12,7 +12,7 @@
         android:padding="5dp"
         android:textSize="20sp"
         android:textColor="@color/white"
-        android:text="فونت فارسی"
+        android:text="@string/label_fontF"
         android:layout_width="wrap_content"
         android:layout_height="60dp"/>
 

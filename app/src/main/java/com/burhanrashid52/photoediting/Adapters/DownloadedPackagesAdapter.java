@@ -109,15 +109,15 @@ public class DownloadedPackagesAdapter extends RecyclerView.Adapter<DownloadedPa
                 public void onClick(View v) {
 
                     new AlertDialog.Builder(v.getContext())
-                            .setMessage("در صورت حذف لازم است پکیج را مجددا دانلود یا خرید کنید.آیا مطمئنید؟")
-                            .setPositiveButton("حذف ", new DialogInterface.OnClickListener() {
+                            .setMessage(itemView.getContext().getString(R.string.delete_package_dialog_text))
+                            .setPositiveButton(itemView.getContext().getString(R.string.remove), new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     onClickItem.delete(localModels);
 
                                 }
                             })
-                            .setNegativeButton("لغو", new DialogInterface.OnClickListener() {
+                            .setNegativeButton(itemView.getContext().getString(R.string.cancel), new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
 

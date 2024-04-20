@@ -14,12 +14,12 @@
                 android:id="@+id/txtTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentStart="true"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="20dp"
-                android:text="درباره برنامه "
+                android:text="@string/about_application_title"
                 android:textColor="@color/black"
                 android:textSize="17sp" />
 
@@ -31,7 +31,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="20dp"
-        android:text="همهٔ تلاش هم‌کارانم در این اپلیکیشن این بوده است که مجموعه‌ای از بهترین و زیباترین پوسترها را به‌صورت رایگان یا با مبلغ اندکی در اختیارتان قرار دهند.\n این طرح‌ها و پوسترها توسط اساتید خِبرهٔ طراحیِ کشورمان، با رعایت جزئی‌ترین تکنیک‌های طراحی، آماده و عرضه شده است. همین کافی‌ست تا زیبایی‌های پیج شما را به‌طور کاملاً محسوس ارتقا بخشد.\n در پایان، امیدواریم که با خرید این بسته‌های زیبا، ما را برای ادامهٔ این مسیر و ارائهٔ محصولات بهتر یاری کرده و امیدواری دهید."
+        android:text="@string/about_application_text"
         android:textColor="@color/darkGray"
         android:textSize="14sp" />
 
@@ -52,7 +52,7 @@
                 android:layout_toRightOf="@id/imgemail"
                 android:fontFamily="@font/roboto_medium"
                 android:gravity="center_vertical"
-                android:text="banerchi@devejumpgroup.ir"
+                android:text="@string/email_address"
                 android:textColor="@color/darkGray"
                 android:textSize="17sp" />
 
@@ -75,7 +75,7 @@
         android:layout_marginTop="20dp"
         android:layout_toRightOf="@id/imgAtSign"
         android:gravity="center_vertical"
-        android:text="https://t.me/saeeddevejump"
+        android:text="@string/telegram_address"
         android:textColor="@color/darkGray"
         android:textSize="17sp" />
 

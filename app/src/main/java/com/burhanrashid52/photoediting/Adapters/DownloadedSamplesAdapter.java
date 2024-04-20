@@ -89,7 +89,7 @@ public class DownloadedSamplesAdapter extends RecyclerView.Adapter<DownloadedSam
                     try {
                        ImageSaver imageSaver= ImageSaver.getInstance();
                         imageSaver.saveToGallery(imageView,itemView.getContext());
-                        Toast.makeText(itemView.getContext(), "در گالری ذخیره شد.",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(itemView.getContext(), imageView.getContext().getString(R.string.saved_in_gallery),Toast.LENGTH_SHORT).show();
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }

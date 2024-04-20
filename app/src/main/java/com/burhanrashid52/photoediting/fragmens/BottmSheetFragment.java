@@ -1,14 +1,9 @@
 package com.burhanrashid52.photoediting.fragmens;
 
 import static android.content.Context.MODE_PRIVATE;
-import static android.content.Context.NOTIFICATION_SERVICE;
 
 import android.Manifest;
-import android.app.Activity;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.appsearch.SetSchemaRequest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,64 +12,37 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.ActivityResultRegistry;
-import androidx.activity.result.contract.ActivityResultContract;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
-import androidx.core.app.ActivityOptionsCompat;
-import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
-import com.bumptech.glide.Registry;
 import com.burhanrashid52.photoediting.Dialogs.BuySubscribeDialog;
 import com.burhanrashid52.photoediting.Dialogs.DialogListener;
 import com.burhanrashid52.photoediting.Dialogs.LoginDialog;
 import com.burhanrashid52.photoediting.DownloadPackageHelper;
 import com.burhanrashid52.photoediting.FileUtils;
 import com.burhanrashid52.photoediting.InAppBill;
-import com.burhanrashid52.photoediting.PayActivity;
-import com.burhanrashid52.photoediting.Preferences;
 import com.burhanrashid52.photoediting.R;
-import com.burhanrashid52.photoediting.activitys.PreviewActivity;
 import com.burhanrashid52.photoediting.database.AppDataBase;
 import com.burhanrashid52.photoediting.database.SavedModel;
 import com.burhanrashid52.photoediting.database.TaskDao;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.io.File;
 import java.util.Objects;
-
-import ir.cafebazaar.poolakey.Connection;
-import ir.cafebazaar.poolakey.ConnectionState;
-import ir.cafebazaar.poolakey.Payment;
-import ir.cafebazaar.poolakey.callback.ConnectionCallback;
-import ir.cafebazaar.poolakey.callback.PurchaseCallback;
-import ir.cafebazaar.poolakey.config.PaymentConfiguration;
-import ir.cafebazaar.poolakey.config.SecurityCheck;
-import ir.cafebazaar.poolakey.entity.PurchaseInfo;
-import ir.cafebazaar.poolakey.request.PurchaseRequest;
-import kotlin.Unit;
-import kotlin.jvm.functions.Function0;
-import kotlin.jvm.functions.Function1;
-import kotlin.jvm.internal.DefaultConstructorMarker;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class BottmSheetFragment extends BottomSheetDialogFragment implements DialogListener {
@@ -115,6 +83,7 @@ public class BottmSheetFragment extends BottomSheetDialogFragment implements Dia
     }
 
 
+    @SuppressLint("SetTextI18n")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -122,8 +91,8 @@ public class BottmSheetFragment extends BottomSheetDialogFragment implements Dia
         findView(view);
         saveItemInFaves();
         title.setText(name);
-        designerName.setText("طراح: "+designer);
-        downloadCountTextview.setText("تا کنون " + downloadCount + " نفر این پکیج را دانلود کرده اند.");
+        designerName.setText(context.getString(R.string.designer)+designer);
+        downloadCountTextview.setText( downloadCount + context.getString(R.string.download_count_text));
         PURCHASE_TOKEN=sharedPreferences.getString("PURCHASE_TOKEN","");
         token=sharedPreferences.getString("token","empty");
 
@@ -136,14 +105,14 @@ public class BottmSheetFragment extends BottomSheetDialogFragment implements Dia
 
 
             if (price == 0) {
-                priceTextview.setText("رایگان");
+                priceTextview.setText(context.getString(R.string.free));
             } else {
-                priceTextview.setText("اشتراکی");
+                priceTextview.setText(context.getString(R.string.premium));
                 if (PURCHASE_TOKEN.equals("")){
-                    downLoad.setText("خرید اشتراک");
+                    downLoad.setText(context.getString(R.string.buySubscribe));
 
                 }else{
-                    downLoad.setText("دانلود پکیج");
+                    downLoad.setText(context.getString(R.string.download_package));
 
                 }
             /*   downLoad.setOnClickListener(new View.OnClickListener() {
@@ -186,7 +155,7 @@ public class BottmSheetFragment extends BottomSheetDialogFragment implements Dia
                             onDestroyView();
                         }else{
                             if (extracted.exists()) {
-                                Toast.makeText(context, "این فایل قبلا دانلود شده است.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, context.getString(R.string.already_downloaded), Toast.LENGTH_SHORT).show();
 
 
                             } else {
@@ -197,11 +166,14 @@ public class BottmSheetFragment extends BottomSheetDialogFragment implements Dia
                                         requestStoragePermission();
 
                                     } else {
+
                                         downloadPackageHelper.downloading();
                                     }
                                 }else{
-                                    if(PURCHASE_TOKEN.equals("")){
+                                   if(PURCHASE_TOKEN.equals("")){
                                         BuySubscribeDialog buySubscribeDialog=new BuySubscribeDialog(context,getActivity());
+                                        buySubscribeDialog.setDialogListener(BottmSheetFragment.this); // 'this' refers to the Fragment which implements the listener
+                                       onDestroyView();
                                         buySubscribeDialog.show();
 
 
@@ -310,16 +282,16 @@ public class BottmSheetFragment extends BottomSheetDialogFragment implements Dia
                 downloadPackageHelper.downloading();
             } else {
                 new AlertDialog.Builder(context)
-                        .setTitle("درخواست مجوز")
-                        .setMessage("شما مجوز دسترسی به حافظه را رد کرده اید .آیا تمایل دارید به صورت دستی مجوز را فعال کنید؟ ")
-                        .setPositiveButton("موافقم", new DialogInterface.OnClickListener() {
+                        .setTitle(context.getString(R.string.Request_permission))
+                        .setMessage(context.getString(R.string.permission_denied_text))
+                        .setPositiveButton(context.getString(R.string.agree), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
 
                                 openAppSettings();
                             }
                         })
-                        .setNegativeButton("لغو", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -380,12 +352,9 @@ return bundle;
     @Override
     public void onDialogResult() {
         PURCHASE_TOKEN=sharedPreferences.getString("PURCHASE_TOKEN","");
-        if (PURCHASE_TOKEN.equals("")){
-            downLoad.setText("خرید اشتراک");
 
-        }else{
-            downLoad.setText("دانلود پکیج");
+            downLoad.setText(context.getString(R.string.download_package));
 
-        }
+
     }
 }

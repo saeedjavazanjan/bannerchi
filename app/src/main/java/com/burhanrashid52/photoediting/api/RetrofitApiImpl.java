@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.Volley;
 import com.burhanrashid52.photoediting.models.AdUserDtoModel;
+import com.burhanrashid52.photoediting.models.DownloadDetail;
 import com.burhanrashid52.photoediting.models.SignInRequestModel;
 import com.burhanrashid52.photoediting.models.UserLoginResponse;
 import com.burhanrashid52.photoediting.models.UserModel;
@@ -72,5 +73,15 @@ public void signInPasswordCheck(SignInRequestModel signInRequestModel , Callback
     }
 
 
+    public void getVersion(Callback<String>callback){
+        Call<String> call= retrofitAPI.getVersion();
+        call.enqueue(callback);
+    }
+
+    public void sendDownloadDetail(String token ,DownloadDetail downloadDetail,Callback<ResponseBody> callback){
+        String BearerToken="Bearer " + token;
+        Call <ResponseBody> call=retrofitAPI.sendDownLoadDetail(BearerToken,downloadDetail);
+        call.enqueue(callback);
+    }
 
 }
