@@ -51,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxWidth="70dp"
-                android:text="عنوان "
+                android:text="@string/title_of_package"
                 android:textColor="@color/white"
                 android:textSize="14sp" />
             <LinearLayout

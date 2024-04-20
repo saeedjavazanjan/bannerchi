@@ -1,9 +1,7 @@
 <resources>
-    <string name="app_name">بنرچی</string>
+    <string name="app_name"> bannerchi </string>
     <string name="label_brush">Brush</string>
-    <string name="label_color">رنگ</string>
-    <string name="label_fontF">فونت فارسی</string>
-    <string name="label_fontE">فونت انگلیسی</string>
+
     <string name="label_shape">Shape</string>
     <string name="label_oval">Oval</string>
     <string name="label_rectangle">Rectangle</string>
@@ -17,34 +15,54 @@
     <string name="label_adjust">Adjust</string>
     <string name="msg_save_image">Are you want to exit without saving image ?</string>
     <string name="app_intent_name">PhotoEditor</string>
-    <string name="msg_save_image_to_share">لطفابرای اشتراک گذاری تصویر را ذخیره کنید.</string>
+    <string name="msg_save_image_to_share">Please save the image for sharing.</string>
     <string name="msg_share_image">Share Image</string>
+    <string name="brush">Brush</string>
+    <string name="opacity">Opacity</string>
+    <string name="shape">Shape</string>
+    <string name="close">Close</string>
+
     <string name="RSAKey">MIHNMA0GCSqGSIb3DQEBAQUAA4G7ADCBtwKBrwDJYQVlmFb27fDWdlBa7MFycAsLuGh0ddMmx5iWYQs9gfOfvSyLuquJpnlKp/uSykHuqU2MNlBU8eBBV/S1e2mrEBoAlUySTXpBPfQiGfvcH0cpJaPrPdBNdteelUSZa8RCc7DjMdmBhDfcvMzQHDxn/VvHuW/sirh9/LkEQ58Tr0D02Hx5/6l9hTguWzntLKkUaapaAn1IKluSJi/lSZa4vVLqTOxFDIH5zPMpwu0CAwEAAQ==</string>
     <string name="msg_token_fmt" translatable="false">FCM registration Token: %s</string>
     <string name="msg_subscribe_failed">Failed to subscribe to weather topic</string>
     <string name="msg_subscribed">Subscribed to weather topic</string>
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
     <string name="fcm_message">FCM Message</string>
+    <string name="rotation">Rotation</string>
 
-    <string name="edit">ویرایش</string>
-    <string name="share">اشتراک گذاری</string>
-    <string name="save">ذخیره</string>
 
-    <string name="userName">نام کاربری</string>
-    <string name="phoneNumber">شماره تلفن</string>
-    <string name="send">ارسال</string>
-    <string name="otp">رمز دریافتی را وارد کنید</string>
-    <string name="typeOfPage">نوع پیج(کاری/شخصی) </string>
-    <string name="jobTitle">عنوان کاری</string>
+    <string name="edit">edit</string>
+    <string name="share">share</string>
+    <string name="save">save</string>
 
-    <string name="buySubscribe">خرید اشتراک</string>
-    <string name="threeMonth">اشتراک سه ماهه</string>
-    <string name="sixMonth">اشتراک شش ماهه</string>
-    <string name="oneYear">اشتراک یک ساله</string>
+    <!-- login dialog -->
+    <string name="userName">User name</string>
+    <string name="phoneNumber">Phone number</string>
+    <string name="send">send</string>
+    <string name="otp">Enter the received code.</string>
+    <string name="typeOfPage">Page type (Business/Personal)</string>
+    <string name="jobTitle">Job title</string>
+    <string name="page_type">Page type</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="sign_in">Sign In</string>
+    <string name="rate_limit">Please try after one minute</string>
+    <string name="Registration_successful">Registration successful</string>
+    <string name="Login_successful">Login successful</string>
 
-    <string name="gust">کاربر مهمان</string>
+    <string-array name="page_types">
+        <item>Personal</item>
+        <item>Business</item>
+    </string-array>
+
+
+    <string name="guest">Guest use</string>
     <string name="empty">----</string>
 
+    <!-- about us -->
+    <string name="about_application_title">About Application</string>
+    <string name="about_application_text">All my colleagues efforts in this application have been aimed at providing you with a collection of the best and most beautiful posters, either for free or at a nominal cost.\n These designs and posters have been prepared and presented by experienced design professionals in our country, adhering to the most meticulous design techniques. This alone is enough to significantly enhance the beauty of your page in a completely tangible way.\n In the end, we hope that by purchasing these beautiful packages, you will support us in continuing this path and providing better products.</string>
+    <string name="email_address" translatable="false">banerchi@devejumpgroup.ir</string>
+    <string name="telegram_address" translatable="false">https://t.me/saeeddevejump</string>
 
 
     <string-array name="photo_editor_emoji">
@@ -453,6 +471,7 @@
         <item>u+1f4cd</item>
         <item>u+1f6a9</item>
     </string-array>
+
     <string name="general_purchase_text">Purchase</string>
     <string name="general_subscribe_text">Subscribe</string>
     <string name="general_consume_purchase_text">Consume Purchase</string>
@@ -466,7 +485,6 @@
     <string name="general_get_sku_detail_inapp_text">Get Sku detail of in-app item</string>
     <string name="general_get_sku_detail_sub_text">Get Sku detail of subscription item</string>
     <string name="general_check_trial_subscription_text">Check Trial subscription</string>
-
     <string name="general_purchase_flow_began_message">Purchase flow began</string>
     <string name="general_purchase_succeed_message">Purchase succeed</string>
     <string name="general_purchase_cancelled_message">Purchase Cancelled</string>
@@ -481,5 +499,92 @@
     <string name="general_user_did_not_purchased_item_message">User has not bought this item</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- add text dialog-->
+    <string name="done_button">Done</string>
+    <string name="enter_text">Enter your text</string>
+    <string name="label_color">color</string>
+    <string name="label_fontF">Persian font</string>
+    <string name="label_fontE">English font</string>
+
+    <!--bottomSheet-->
+    <string name="poster_name">Poster name</string>
+    <string name="poster_name_hint"> mohammad Saleh Ahmadi</string>
+    <string name="price_hint">10000 T</string>
+    <string name="download_count_hint">تا کنون 152 نفر این محصول را دانلود کرده اند.</string>
+    <string name="download_package">Download package</string>
+    <string name="designer">Designer: </string>
+    <string name="download_count_text"> people have downloaded this product so far.</string>
+    <string name="free">Free </string>
+    <string name="premium">Premium </string>
+    <string name="already_downloaded">This file has already been downloaded. </string>
+
+
+    <!-- buy subscribe dialog -->
+    <string name="buySubscribe">Purchase subscription</string>
+    <string name="threeMonth">Three-month subscription</string>
+    <string name="sixMonth">Six-month subscription</string>
+    <string name="oneYear">One-year subscription</string>
+
+
+    <string name="title_of_package">title</string>
+    <string name="download">Download</string>
+    <string name="public_error">An error has occurred</string>
+    <string name="downLoad_complete">Download is done.</string>
+    <string name="exit">Click again to exit.</string>
+    <string name="connection_error">Connection Error</string>
+    <string name="saved_in_gallery">Saved in gallery</string>
+    <string name="not_found">Not found</string>
+    <string name="remove">Remove</string>
+    <string name="cancel">Cancel</string>
+    <string name="agree">Agree</string>
+    <string name="Request_permission">Request permission</string>
+    <string name="permission_denied_text">You have been denied permission to access the memory. Would you like to enable the permission manually?</string>
+    <!--
+        شما مجوز دسترسی به حافظه را رد کرده اید .آیا تمایل دارید به صورت دستی مجوز را فعال کنید؟
+    -->
+
+
+    <!-- home -->
+    <string name="home_title">پیجتو بسپار به بنرچی!</string>
+    <string name="search_hint">Search…</string>
+    <string name="poster">Poster</string>
+    <string name="template">Template</string>
+
+
+    <!-- profile -->
+    <string name="subscription_status">Subscription Status</string>
+    <string name="subscribtion_name">Subscription name</string>
+    <string name="left_time">Remaining subscription time</string>
+    <string name="left_time_in_day"> days left</string>
+    <string name="expired"> expired </string>
+
+    <!-- notification -->
+    <string name="notif_title">Title</string>
+    <string name="notif_message">Message</string>
+
+
+    <!-- downloadsFragment -->
+    <string name="delete_package">Package removed Successfully.</string>
+    <string name="delete_package_dialog_text">If you delete it, you will need to download or buy the package again. Are you sure?</string>
+
+    <!--
+        در صورت حذف لازم است پکیج را مجددا دانلود یا خرید کنید.آیا مطمئنید؟
+    -->
+
+
+    <!-- bottom menu -->
+    <string name="label_downloaded">Downloaded</string>
+    <string name="label_favorites">Favorites</string>
+    <string name="label_home">Home</string>
+    <string name="label_about_us">About Us</string>
+    <string name="label_profile">Profile</string>
+
+
+    <!-- splash -->
+    <string name="update_text">Do you want to update the Application?</string>
+    <string name="update_title">Update</string>
+    <string name="update">Update</string>
+    <string name="later">Later</string>
 
 </resources>

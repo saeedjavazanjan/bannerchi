@@ -15,7 +15,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.burhanrashid52.photoediting.DataFilledCallback;
 import com.burhanrashid52.photoediting.Dialogs.BuySubscribeDialog;
@@ -61,7 +60,7 @@ Context currentContext;
 
     }
 
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint({"MissingInflatedId", "SetTextI18n"})
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -93,21 +92,22 @@ Context currentContext;
             }
         });
 
-        name=sharedPreferences.getString("userName",currentContext.getString(R.string.gust));
+        name=sharedPreferences.getString("userName",currentContext.getString(R.string.guest));
         phone=sharedPreferences.getString("phoneNumber",currentContext.getString(R.string.empty));
         page=sharedPreferences.getString("typeOfPage","");
         job=sharedPreferences.getString("jobTitle","");
 
         userName.setText(name);
         phoneNumber.setText(phone);
-        jobTitle.setText("عنوان کاری: "+job);
-        typeOfPage.setText("نوع صفحه: "+page);
+        jobTitle.setText(currentContext.getString(R.string.jobTitle)+": " +job);
+        typeOfPage.setText(currentContext.getString(R.string.page_type)+": "+page);
 
 
 
         return view;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onDataFilled(List<PurchaseInfo> dataList) {
 
@@ -118,11 +118,11 @@ Context currentContext;
 
 
             SubscribeName.setText(subscribeName(dataList.get(0)));
-            SubscribeTime.setText(String.valueOf(leftTime)+" روز باقی مانده");
+            SubscribeTime.setText(leftTime +currentContext.getString(R.string.left_time_in_day));
 
             if (leftTime<=0){
                 buy.setVisibility(View.VISIBLE);
-                SubscribeTime.setText("منقضی شده");
+                SubscribeTime.setText(currentContext.getString(R.string.expired));
                 myEdit.putString("PURCHASE_TOKEN","");
                 myEdit.commit();
 

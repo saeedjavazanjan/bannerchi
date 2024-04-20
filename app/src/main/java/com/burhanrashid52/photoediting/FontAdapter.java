@@ -76,9 +76,9 @@ public class FontAdapter extends RecyclerView.Adapter<FontAdapter.ViewHolder> {
         public void onBinder(String fontFamily){
             if (fontpath.equals("fontper/")){
 
-                fontsample.setText("فونت فارسی");
+                fontsample.setText(context.getString(R.string.label_fontF));
             }else if (fontpath.equals("fonteng/")) {
-                fontsample.setText("English_Font");
+                fontsample.setText(context.getString(R.string.label_fontE));
             }
 
 

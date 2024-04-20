@@ -12,7 +12,7 @@
     android:background="@drawable/gray_background"
     android:padding="5dp"
     android:gravity="center"
-    android:text="test"
+    android:text="@string/title_of_package"
     android:textSize="15sp"
     android:layout_width="wrap_content"
     android:layout_height="50dp"/>

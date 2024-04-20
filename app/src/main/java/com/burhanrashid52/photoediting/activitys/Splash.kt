@@ -81,11 +81,11 @@ class Splash : AppCompatActivity(),DataFilledCallback {
      val alertDialogBuilder = AlertDialog.Builder(this)
 
      // Set the dialog title and message
-     alertDialogBuilder.setTitle("Update")
-     alertDialogBuilder.setMessage("آیا مایل به آپدیت برنامه هستید؟ ")
+     alertDialogBuilder.setTitle(getString(R.string.update_title))
+     alertDialogBuilder.setMessage(getString(R.string.update_text))
 
      // Set a positive button and its click listener
-     alertDialogBuilder.setPositiveButton("به روز رسانی") { dialog, which ->
+     alertDialogBuilder.setPositiveButton(getString(R.string.update)) { dialog, which ->
          // Action to perform when the OK button is clicked
          // For example, dismiss the dialog
          val intent = Intent(Intent.ACTION_VIEW)
@@ -101,7 +101,7 @@ class Splash : AppCompatActivity(),DataFilledCallback {
      }
 
      // Set a negative button and its click listener
-     alertDialogBuilder.setNegativeButton("بعدا") { dialog, which ->
+     alertDialogBuilder.setNegativeButton(getString(R.string.later)) { dialog, which ->
          // Action to perform when the Cancel button is clicked
          // For example, dismiss the dialog
          dialog.dismiss()
@@ -138,7 +138,7 @@ class Splash : AppCompatActivity(),DataFilledCallback {
          override fun onFailure(call: Call<String?>, t: Throwable) {
              progressBar.visibility = View.GONE
 
-             Toast.makeText(this@Splash,"خطا در ارتباط",Toast.LENGTH_SHORT).show()
+             Toast.makeText(this@Splash,getString(R.string.connection_error),Toast.LENGTH_SHORT).show()
 
          }
      })

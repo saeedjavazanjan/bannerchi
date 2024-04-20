@@ -66,7 +66,7 @@ public class FourGroundService extends Service {
                 if(CreateDirectory()) {
 
                     DownloadManager.Request request = new DownloadManager.Request(uri);
-                    request.setTitle("دانلود" + package_Name);
+                    request.setTitle(getString(R.string.download) + package_Name);
                     request.setDescription("Downloading");
                     request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
                   //  request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS+ File.separator, package_Name);
@@ -74,7 +74,7 @@ public class FourGroundService extends Service {
 
                     downloadmanager.enqueue(request);
                 }else{
-                    Toast.makeText(FourGroundService.this, "مشکلی رخ داده است..", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(FourGroundService.this, getString(R.string.public_error), Toast.LENGTH_SHORT).show();
                 }
             }
         });

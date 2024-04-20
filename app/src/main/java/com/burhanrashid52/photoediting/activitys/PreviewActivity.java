@@ -19,7 +19,6 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.burhanrashid52.photoediting.Adapters.SamplesAdapter;
 import com.burhanrashid52.photoediting.CustomFrameLayout;

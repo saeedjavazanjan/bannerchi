@@ -132,7 +132,7 @@ public class DownloadPackageHelper {
                                     }
                                 });
 
-                                Toast.makeText(context, "دانلود انجام شد", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, context.getString(R.string.downLoad_complete), Toast.LENGTH_SHORT).show();
                                   finalNotificationManager.cancel(101);
                                // downloadCounting();
                                 sendDownloadDetailsToServer(name,id);
@@ -146,7 +146,7 @@ public class DownloadPackageHelper {
 
                             @Override
                             public void onDownloadFailed() {
-                                Toast.makeText(context, "مشکلی رخ داده است", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, context.getString(R.string.public_error), Toast.LENGTH_SHORT).show();
                                   finalNotificationManager.cancel(101);
                                 BottmSheetFragment.downLoad.setVisibility(View.VISIBLE);
                                 BottmSheetFragment.progressBar.setVisibility(View.GONE);
@@ -253,7 +253,6 @@ public class DownloadPackageHelper {
             public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
 
                 if(response.isSuccessful()){
-                    Toast.makeText(context,"succsseee",Toast.LENGTH_SHORT).show();
 
                 }else {
                     String errMsg = null;
@@ -265,8 +264,7 @@ public class DownloadPackageHelper {
                             errMsg = errorJson.getString("error");
                             Toast.makeText(context,errMsg,Toast.LENGTH_SHORT).show();
                         } catch (IOException | JSONException e) {
-                            Toast.makeText(context,"error",Toast.LENGTH_SHORT).show();
-                            Log.e("TESTT",e.getMessage().toString());
+                            Toast.makeText(context,context.getString(R.string.public_error),Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
@@ -274,7 +272,7 @@ public class DownloadPackageHelper {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(context,"fail",Toast.LENGTH_SHORT).show();
+                Toast.makeText(context,context.getString(R.string.public_error),Toast.LENGTH_SHORT).show();
 
             }
         });
