@@ -1,20 +1,30 @@
 package com.burhanrashid52.photoediting.activitys
 
 import android.annotation.SuppressLint
+import android.app.Application
+import android.app.LocaleManager
+import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.os.LocaleList
+import android.preference.PreferenceManager
 import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import com.burhanrashid52.photoediting.DataFilledCallback
 import com.burhanrashid52.photoediting.InAppBill
+import com.burhanrashid52.photoediting.PhotoApp
 import com.burhanrashid52.photoediting.R
 import com.burhanrashid52.photoediting.api.RetrofitApiImpl
 import com.google.android.material.textview.MaterialTextView
@@ -31,39 +41,44 @@ class Splash : AppCompatActivity(),DataFilledCallback {
     lateinit var progressBar: ProgressBar
     lateinit var versionText:MaterialTextView
 
+    private val PREF_SELECTED_LANGUAGE = "selectedLanguage"
+
     @SuppressLint("CommitPrefEdits", "MissingInflatedId", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
-
-
-
-
-        var bazar=InAppBill(this,this)
-
-         bazar.connectForSubscribe(this)
         sharedPreferences = this.getSharedPreferences("MySharedPref", MODE_PRIVATE)
-         myEdit = sharedPreferences.edit()
-        progressBar=findViewById(R.id.progressBar)
-        versionText=findViewById(R.id.txtVersin)
+        myEdit = sharedPreferences.edit()
 
-        versionText.text="version: ${getAppVersionName()}"
+        if (!isLanguagePreferenceSet()) {
+            // If language preference is not set, show language selection dialog
+            showLanguageSelectionDialog()
+        } else {
+            PhotoApp.setLocale(this)
 
-        retrofit=RetrofitApiImpl.getInstance(this)
-        var handler = Handler()
+            var bazar = InAppBill(this, this)
 
-        handler.postDelayed(Runnable {
-                                     kotlin.run {
+            bazar.connectForSubscribe(this)
+            progressBar = findViewById(R.id.progressBar)
+            versionText = findViewById(R.id.txtVersin)
 
-                                         checkVersion()
-                                        // overridePendingTransition(R.anim.fade_in,R.anim.fade_out)
+            versionText.text = "version: ${getAppVersionName()}"
 
-                                     }
+            retrofit = RetrofitApiImpl.getInstance(this)
+            var handler = Handler()
 
-        },2000)
+            handler.postDelayed(Runnable {
+                kotlin.run {
 
+                    checkVersion()
+                    // overridePendingTransition(R.anim.fade_in,R.anim.fade_out)
+
+                }
+
+            }, 2000)
+
+        }
     }
-
     @SuppressLint("SuspiciousIndentation")
     override fun onDataFilled(dataList: MutableList<PurchaseInfo>?) {
 
@@ -83,7 +98,7 @@ class Splash : AppCompatActivity(),DataFilledCallback {
      // Set the dialog title and message
      alertDialogBuilder.setTitle(getString(R.string.update_title))
      alertDialogBuilder.setMessage(getString(R.string.update_text))
-
+     alertDialogBuilder.setCancelable(false)
      // Set a positive button and its click listener
      alertDialogBuilder.setPositiveButton(getString(R.string.update)) { dialog, which ->
          // Action to perform when the OK button is clicked
@@ -152,6 +167,46 @@ class Splash : AppCompatActivity(),DataFilledCallback {
             e.printStackTrace()
             "Unknown"
         }
+    }
+
+
+    private fun isLanguagePreferenceSet(): Boolean {
+        val preference=applicationContext.getSharedPreferences("Language", MODE_PRIVATE)
+        return preference.contains(PREF_SELECTED_LANGUAGE)
+    }
+
+    private fun showLanguageSelectionDialog() {
+        val languages = resources.getStringArray(R.array.languages)
+
+        val builder = AlertDialog.Builder(this)
+        builder.setCancelable(false)
+        builder.setTitle("Select Language")
+            .setItems(languages, DialogInterface.OnClickListener { dialog, which ->
+                // Save selected language preference
+                if(languages[which]=="Persian")
+
+               saveLanguagePreference("fa")
+                else
+                    saveLanguagePreference("en")
+
+
+                // Apply selected language and restart activity
+                restartActivity()
+            })
+            .setCancelable(false)
+            .show()
+    }
+
+    private fun saveLanguagePreference(selectedLanguage: String) {
+        val preference=applicationContext.getSharedPreferences("Language", MODE_PRIVATE)
+        preference.edit().putString(PREF_SELECTED_LANGUAGE, selectedLanguage).apply()
+        PhotoApp.setLocale(this)
+    }
+
+    private fun restartActivity() {
+        val intent = intent
+        finish()
+        startActivity(intent)
     }
 }
 
