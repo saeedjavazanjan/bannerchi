@@ -1,26 +1,26 @@
 <resources>
     <string name="app_name">بنرچی</string>
-    <string name="label_brush">Brush</string>
-    <string name="label_shape">Shape</string>
-    <string name="label_oval">Oval</string>
-    <string name="label_rectangle">Rectangle</string>
-    <string name="label_line">Line</string>
-    <string name="label_emoji">Emoji</string>
-    <string name="label_sticker">Sticker</string>
-    <string name="label_eraser">Eraser</string>
-    <string name="label_eraser_mode">Eraser Mode</string>
-    <string name="label_text">Text</string>
-    <string name="label_filter">Filter</string>
-    <string name="label_adjust">Adjust</string>
-    <string name="msg_save_image">Are you want to exit without saving image ?</string>
-    <string name="app_intent_name">PhotoEditor</string>
-    <string name="rotation">Rotation</string>
-    <string name="brush">Brush</string>
-    <string name="opacity">Opacity</string>
-    <string name="shape">Shape</string>
-    <string name="close">Close</string>
+    <string name="label_brush">قلم</string>
+    <string name="label_shape">شکل</string>
+    <string name="label_oval">دایره</string>
+    <string name="label_rectangle">مربع</string>
+    <string name="label_line">خط</string>
+    <string name="label_emoji">ایموجی</string>
+    <string name="label_sticker">استیکر</string>
+    <string name="label_eraser">پاک کن</string>
+    <string name="label_eraser_mode">حالت پاک کن</string>
+    <string name="label_text">متن</string>
+    <string name="label_filter">فیلتر</string>
+    <string name="label_adjust">تنظیم</string>
+    <string name="msg_save_image">آیا می خواهید بدون ذخیره عکس خارج شوید؟</string>
+    <string name="app_intent_name">ویرایش گر</string>
+    <string name="rotation">چرخش</string>
+    <string name="brush">قلم</string>
+    <string name="opacity">شفافیت</string>
+    <string name="shape">شکل</string>
+    <string name="close">بستن</string>
     <string name="msg_save_image_to_share">لطفابرای اشتراک گذاری تصویر را ذخیره کنید.</string>
-    <string name="msg_share_image">Share Image</string>
+    <string name="msg_share_image">اشتراک گذاری</string>
 
     <string name="RSAKey">MIHNMA0GCSqGSIb3DQEBAQUAA4G7ADCBtwKBrwDJYQVlmFb27fDWdlBa7MFycAsLuGh0ddMmx5iWYQs9gfOfvSyLuquJpnlKp/uSykHuqU2MNlBU8eBBV/S1e2mrEBoAlUySTXpBPfQiGfvcH0cpJaPrPdBNdteelUSZa8RCc7DjMdmBhDfcvMzQHDxn/VvHuW/sirh9/LkEQ58Tr0D02Hx5/6l9hTguWzntLKkUaapaAn1IKluSJi/lSZa4vVLqTOxFDIH5zPMpwu0CAwEAAQ==</string>
     <string name="msg_token_fmt" translatable="false">FCM registration Token: %s</string>
@@ -39,9 +39,12 @@
     <string name="otp">رمز دریافتی را وارد کنید</string>
     <string name="typeOfPage">نوع پیج(کاری/شخصی) </string>
     <string name="jobTitle">عنوان کاری</string>
-    <string name="page_type">Page type</string>
+    <string name="page_type">نوع صفحه</string>
     <string name="sign_up">ثبت نام</string>
     <string name="sign_in">ورود</string>
+    <string name="rate_limit">لطفا بعد از یک دقیقه تلاش کنید</string>
+    <string name="Registration_successful">ثبت نام موفق</string>
+    <string name="Login_successful">ورود موفق</string>
     <string-array name="page_types">
         <item>شخصی</item>
         <item>کاری</item>
@@ -61,7 +64,7 @@
 
     <!-- about us -->
 
-    <string name="about_application_title">About Application</string>
+    <string name="about_application_title">درباره برنامه</string>
     <string name="about_application_text">همهٔ تلاش هم‌کارانم در این اپلیکیشن این بوده است که مجموعه‌ای از بهترین و زیباترین پوسترها را به‌صورت رایگان یا با مبلغ اندکی در اختیارتان قرار دهند.\n این طرح‌ها و پوسترها توسط اساتید خِبرهٔ طراحیِ کشورمان، با رعایت جزئی‌ترین تکنیک‌های طراحی، آماده و عرضه شده است. همین کافی‌ست تا زیبایی‌های پیج شما را به‌طور کاملاً محسوس ارتقا بخشد.\n در پایان، امیدواریم که با خرید این بسته‌های زیبا، ما را برای ادامهٔ این مسیر و ارائهٔ محصولات بهتر یاری کرده و امیدواری دهید.</string>
 
     <string name="general_purchase_text">Purchase</string>
@@ -104,19 +107,28 @@
     <string name="poster_name">نام طرح</string>
     <string name="poster_name_hint">طراح:محمد صالح احمدی</string>
     <string name="price_hint">10000 تومان</string>
-    <string name="download_count_hint">تا کنون 152 نفر این محصول را دانلود کرده اند.</string>
     <string name="download_package">دانلود پکیج</string>
     <string name="designer">طراح: </string>
     <string name="download_count_text"> نفر این محصول را دانلود کرده اند.</string>
     <string name="free">رایگان </string>
     <string name="premium">اشتراکی</string>
+    <string name="already_downloaded">این فایل قبلا دانلود شده</string>
 
     <string name="title_of_package">عنوان</string>
     <string name="download">دانلود</string>
     <string name="public_error">خطایی رخ داده است</string>
+    <string name="downLoad_complete">دانلود انجام شد</string>
+    <string name="exit">برای خروج مجددا کلیک کنید</string>
+    <string name="connection_error">خطای ارتباط..</string>
+    <string name="saved_in_gallery">در گالری ذخیره شد</string>
+    <string name="not_found">موردی پیدا نشد</string>
+    <string name="remove">حذف</string>
+    <string name="cancel">انصراف</string>
+    <string name="agree">موافقم</string>
+    <string name="Request_permission">درخواست دسترسی</string>
+    <string name="permission_denied_text">شما مجوز دسترسی به حافظه را رد کرده اید .آیا تمایل دارید به صورت دستی مجوز را فعال کنید؟</string>
 
     <!-- home -->
-    <string name="home_title">پیجتو بسپار به بنرچی!</string>
     <string name="search_hint">جستجو...</string>
     <string name="poster">مناسبتی</string>
     <string name="template">قالب پیج</string>
@@ -135,5 +147,16 @@
     <string name="label_home">خانه</string>
     <string name="label_about_us">درباره ما</string>
     <string name="label_profile">پروفایل</string>
+
+    <!-- splash -->
+    <string name="update_text">آیا تمایل دارید برنامه را به روز رسانی کنید؟</string>
+    <string name="update_title">به روز رسانی</string>
+    <string name="update">به روز رسانی</string>
+    <string name="later">بعدا</string>
+
+    <!-- downloadsFragment -->
+    <string name="delete_package">پکیج با موفقیت حذف شد</string>
+    <string name="delete_package_dialog_text">در صورت حذف لازم است پکیج را مجددا دانلود یا خرید کنید.آیا مطمئنید؟</string>
+
 
 </resources>

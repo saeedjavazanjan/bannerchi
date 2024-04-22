@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -88,11 +89,14 @@ public class BottmSheetFragment extends BottomSheetDialogFragment implements Dia
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.bottom_sheet_dialog_fragment, container, false);
+        final Configuration config =
+               context.getResources().getConfiguration();
+        view.setLayoutDirection(config.getLayoutDirection());
         findView(view);
         saveItemInFaves();
         title.setText(name);
         designerName.setText(context.getString(R.string.designer)+designer);
-        downloadCountTextview.setText( downloadCount + context.getString(R.string.download_count_text));
+        downloadCountTextview.setText( downloadCount +" "+ context.getString(R.string.download_count_text));
         PURCHASE_TOKEN=sharedPreferences.getString("PURCHASE_TOKEN","");
         token=sharedPreferences.getString("token","empty");
 

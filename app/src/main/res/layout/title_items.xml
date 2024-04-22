@@ -6,7 +6,7 @@
     android:minWidth="70dp"
     android:layout_marginTop="10dp"
     android:layout_marginBottom="10dp"
-    android:layout_marginLeft="10dp"
+    android:layout_marginStart="10dp"
     android:id="@+id/txtSortTitles"
     android:textColor="@color/texts_color"
     android:background="@drawable/gray_background"

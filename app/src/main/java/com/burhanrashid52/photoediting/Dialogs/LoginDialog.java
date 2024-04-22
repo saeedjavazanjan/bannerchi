@@ -59,6 +59,7 @@ public class LoginDialog extends Dialog {
 
 
     String requestType="signUp";
+    String [] pageType;
     Context context;
 
 
@@ -69,7 +70,6 @@ public class LoginDialog extends Dialog {
         super(context);
         this.context=context;
     }
-    String[] pageType = context.getResources().getStringArray(R.array.page_types);
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -78,6 +78,7 @@ public class LoginDialog extends Dialog {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.login_dialog);
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        pageType = context.getResources().getStringArray(R.array.page_types);
 
         lp.copyFrom(this.getWindow().getAttributes());
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;

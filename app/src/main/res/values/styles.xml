@@ -5,7 +5,9 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorPrimaryDark</item>
+<!--
         <item name="android:layoutDirection">ltr</item>
+-->
 
         <!--
                 <item name="android:windowTranslucentStatus">true</item>
@@ -32,7 +34,9 @@
         <item name="colorAccent">@color/colorPrimaryDark</item>
         <item name="fontFamily">@font/iransans</item>
         <item name="android:windowAnimationStyle">@style/CustomActivityAnimation</item>
+<!--
         <item name="android:layoutDirection">ltr</item>
+-->
 
 
     </style>
